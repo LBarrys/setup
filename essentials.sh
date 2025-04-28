@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #essentials packages
-paru -S --noconfirm  "$package"
+paru -S --noconfirm sddm-kcm plasma-desktop plasma-nm plasma-pa kscreen qt5ct breeze-gtk kde-gtk-config dolphin alacritty kate firefox ungoogled-chromium-bin chromium-extension-web-store thunderbird timeshift grub-btrfs timeshift-autosnap transmission-qt fastfetch telegram-desktop komikku papirus-icon-theme papirus-folders ttf-jetbrains-mono-nerd ttf-ms-win11-auto arch-gaming-meta protonup-qt dxvk-bin minecraft-launcher
 
 #enable sddm
 sudo systemctl enable sddm
