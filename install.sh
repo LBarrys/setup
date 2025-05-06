@@ -1,5 +1,11 @@
 #!/bin/bash
 
+#paru
+cd
+git clone https://aur.archlinux.org/paru.git
+cd paru
+makepkg -si
+
 #essentials
 paru -S firefox thunderbird timeshift fastfetch telegram-desktop komikku cloudflare-warp-bin protonup-qt dxvk-bin minecraft-launcher jre-openjdk grub-btrfs timeshift-autosnap inotify-tools papirus-icon-theme papirus-folders ttf-jetbrains-mono-nerd ttf-ms-win11-auto virtualbox virtualbox-guest-utils virtualbox-guest-iso virtualbox-ext-vnc virtualbox-host-modules-arch
 
