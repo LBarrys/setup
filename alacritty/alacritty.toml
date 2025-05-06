@@ -1,0 +1,34 @@
+[font]
+normal = { family = "JetBrainsMono Nerd Font Mono", style = "Regular" }
+size = 12
+
+[colors.primary]
+foreground = "#FFFFFF"
+background = "#31363b"
+
+[colors.normal]
+black = "#000000"
+red = "#aa3347"
+green = "#329d22"
+yellow = "#a99728"
+blue = "#3281ab"
+magenta = "#8859a3"
+cyan = "#079c8a"
+white = "#FFFFFF"
+
+[colors.bright]
+black = "#000000"
+red = "#aa3347"
+green = "#329d22"
+yellow = "#a99728"
+blue = "#3281ab"
+magenta = "#8859a3"
+cyan = "#079c8a"
+white = "#FFFFFF"
+
+[cursor.style]
+shape = "Beam"
+blinking = "On"
+
+[terminal]
+osc52 = "CopyPaste"
