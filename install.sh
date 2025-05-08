@@ -2,8 +2,8 @@
 
 #paru
 cd
-git clone https://aur.archlinux.org/paru.git
-cd paru
+https://aur.archlinux.org/paru-bin.git
+cd paru-bin
 makepkg -si
 
 #essentials
