@@ -2,12 +2,12 @@
 
 #paru
 cd
-https://aur.archlinux.org/paru-bin.git
+git clone https://aur.archlinux.org/paru-bin.git
 cd paru-bin
 makepkg -si
 
 #essentials
-paru -S firefox thunderbird timeshift fastfetch telegram-desktop komikku cloudflare-warp-bin protonup-qt dxvk-bin minecraft-launcher jre-openjdk grub-btrfs timeshift-autosnap inotify-tools papirus-icon-theme papirus-folders ttf-jetbrains-mono-nerd ttf-ms-win11-auto virtualbox virtualbox-guest-utils virtualbox-guest-iso virtualbox-ext-vnc virtualbox-host-modules-arch
+paru -S firefox thunderbird timeshift fastfetch telegram-desktop komikku cloudflare-warp-bin protonup-qt dxvk-bin minecraft-launcher jre-openjdk grub-btrfs timeshift-autosnap inotify-tools papirus-icon-theme papirus-folders ttf-jetbrains-mono-nerd ttf-ms-win11-auto
 
 #KDE Plasma
 #paru -S --noconfirm sddm-kcm plasma-desktop plasma-nm plasma-pa kscreen qt5ct breeze-gtk kde-gtk-config dolphin alacritty kate transmission-qt stremio
@@ -16,7 +16,7 @@ paru -S firefox thunderbird timeshift fastfetch telegram-desktop komikku cloudfl
 #paru -S --noconfirm cinnamon lightdm-slick-greeter lightdm-settings nemo-fileroller transmission-gtk gnome-terminal xed vlc
 
 #GNOME
-#paru -S --noconfirm gnome-shell gdm gnome-control-center nautilus gnome-tweaks gnome-text-editor gnome-terminal vlc
+#paru -S --noconfirm gnome-shell gdm gnome-control-center nautilus gnome-tweaks gnome-text-editor gnome-terminal gdm-settings extension-manager transmission-gtk vlc
 
 #sddm
 #sudo systemctl enable sddm
