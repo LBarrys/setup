@@ -7,7 +7,7 @@ cd paru-bin
 makepkg -si
 
 #essentials
-paru -S firefox thunderbird timeshift fastfetch telegram-desktop komikku cloudflare-warp-bin protonup-qt dxvk-bin minecraft-launcher jre-openjdk grub-btrfs timeshift-autosnap inotify-tools papirus-icon-theme papirus-folders ttf-jetbrains-mono-nerd ttf-ms-win11-auto
+paru -S firefox thunderbird timeshift fastfetch telegram-desktop komikku cloudflare-warp-bin protonup-qt dxvk-bin minecraft-launcher jre-openjdk grub-btrfs timeshift-autosnap inotify-tools papirus-icon-theme papirus-folders ttf-jetbrains-mono-nerd ttf-ms-win11-auto gnome-disk-utility
 
 #KDE Plasma
 #paru -S --noconfirm sddm-kcm plasma-desktop plasma-nm plasma-pa kscreen qt5ct breeze-gtk kde-gtk-config dolphin alacritty kate transmission-qt stremio
