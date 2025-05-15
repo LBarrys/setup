@@ -16,7 +16,7 @@ paru -S firefox thunderbird timeshift fastfetch telegram-desktop komikku cloudfl
 #paru -S --noconfirm cinnamon lightdm-slick-greeter lightdm-settings nemo-fileroller transmission-gtk gnome-terminal xed vlc
 
 #GNOME
-#paru -S --noconfirm gnome-shell gdm gnome-control-center nautilus gnome-tweaks gnome-text-editor gnome-terminal gdm-settings extension-manager transmission-gtk vlc
+#paru -S --noconfirm gnome-shell gdm gnome-control-center nautilus gnome-tweaks xed gnome-terminal gdm-settings extension-manager transmission-gtk vlc
 
 #sddm
 #sudo systemctl enable sddm
