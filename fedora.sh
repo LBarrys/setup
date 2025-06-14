@@ -65,6 +65,14 @@ sudo sed -i 's/#unix_sock_rw_perms = "0770"/unix_sock_rw_perms = "0770"/g' /etc/
 sudo systemctl enable libvirtd
 sudo usermod -aG libvirt "$(whoami)"
 
+# Cloudflare
+curl -fsSl https://pkg.cloudflareclient.com/cloudflare-warp-ascii.repo | sudo tee /etc/yum.repos.d/cloudflare-warp.repo
+sudo dnf update
+sudo dnf install cloudflare-warp
+sudo systemctl enable warp-svc.service
+sudo systemctl start warp-svc.service
+warp-cli registration new
+
 # Flathub
 flatpak install flathub com.github.tchx84.Flatseal com.usebottles.bottles com.vysp3r.ProtonPlus io.github.Foldex.AdwSteamGtk io.github.radiolamp.mangojuice org.prismlauncher.PrismLauncher com.mattjakeman.ExtensionManager io.github.realmazharhussain.GdmSettings com.stremio.Stremio info.febvre.Komikku
 
