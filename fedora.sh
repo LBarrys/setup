@@ -16,7 +16,7 @@ echo "max_parallel_downloads=5
 defaultyes=True" >> /etc/dnf/dnf.conf
 
 # Install free and nonfree repositories
-dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+sudo dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 
 # CachyOS kernel
 sudo setsebool -P domain_kernel_load_modules on
@@ -27,7 +27,7 @@ sudo dnf install kernel-cachyos kernel-cachyos-devel-matched
 sudo dnf swap ffmpeg-free ffmpeg --allowerasing
 sudo dnf install @multimedia --setopt="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin
 
-# Install nvidia proprietary drivers
+# Installing nvidia proprietary drivers
 sudo dnf install kmod-nvidia xorg-x11-drv-nvidia-cuda akmod-nvidia nvidia-vaapi-driver libva-utils
 
 # Backup the GRUB config file
@@ -59,7 +59,7 @@ else
 fi
 
 # Installing packages
-dnf install gdm gnome-shell gnome-terminal gnome-tweaks gnome-terminal nautilus gnome-terminal-nautilus gnome-disk-utility gnome-text-editor gnome-weather timeshift flatpak fedora-flathub-remote firefox thunderbird fastfetch telegram-desktop transmission-gtk steam lutris wine winetricks protontricks mangohud papirus-icon-theme breeze-cursor-theme @virtualization
+dnf install gdm gnome-shell gnome-terminal gnome-tweaks nautilus gnome-terminal-nautilus gnome-disk-utility gnome-text-editor gnome-weather timeshift flatpak fedora-flathub-remote firefox thunderbird fastfetch vlc telegram-desktop transmission-gtk steam lutris wine winetricks protontricks mangohud papirus-icon-theme breeze-cursor-theme wget @virtualization
 sudo sed -i 's/#unix_sock_group = "libvirt"/unix_sock_group = "libvirt"/g' /etc/libvirt/libvirtd.conf
 sudo sed -i 's/#unix_sock_rw_perms = "0770"/unix_sock_rw_perms = "0770"/g' /etc/libvirt/libvirtd.conf
 sudo systemctl enable libvirtd
@@ -71,6 +71,13 @@ flatpak install flathub com.github.tchx84.Flatseal com.usebottles.bottles com.vy
 # Fonts
 sudo dnf copr enable aquacash5/nerd-fonts
 sudo dnf install google-roboto-fonts google-noto-fonts-all google-noto-fonts-all-static google-noto-fonts-all-vf google-noto-sans-cjk-fonts google-noto-sans-cjk-vf-fonts jet-brains-mono-nerd-fonts
+
+# Remove unnecessary packages
+sudo dnf remove zram* gnome-tour gnome-color-manager malcontent-control remote-viewer
+sudo dnf autoremove
+
+# Graphical target
+sudo systemctl set-default graphical.target
 
 # My configs
 mv ~/setup/wallpapers ~/.config
@@ -94,6 +101,5 @@ alias timeshiftD='sudo timeshift --delete'
 
 #fastfetch logo
 fastfetch --logo-padding-left 1 --logo-padding-right 1 --color green --logo fedora_small" >> ~/.bashrc
-
 
 echo "Script completed. Please reboot to apply changes."
