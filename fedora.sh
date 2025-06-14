@@ -72,6 +72,10 @@ flatpak install flathub com.github.tchx84.Flatseal com.usebottles.bottles com.vy
 sudo dnf copr enable aquacash5/nerd-fonts
 sudo dnf install google-roboto-fonts google-noto-fonts-all google-noto-fonts-all-static google-noto-fonts-all-vf google-noto-sans-cjk-fonts google-noto-sans-cjk-vf-fonts jet-brains-mono-nerd-fonts
 
+# My configs
+mv ~/setup/wallpapers ~/.config
+mv ~/setup/fastfetch ~/.config
+
 # My .bashrc
 echo "#bash promit color
 PS1='\[\033[1;32m\]\u\[\033[0;37m\]@\[\033[1;32m\]\h\[\033[0;37m\]:\W '
