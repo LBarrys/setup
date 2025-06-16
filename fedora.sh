@@ -1,11 +1,5 @@
 #!/bin/bash
 
-# Check if script is run as root
-if [[ $EUID -ne 0 ]]; then
-    echo "This script must be run as root. Use sudo."
-    exit 1
-fi
-
 # Define the GRUB config file
 GRUB_FILE="/etc/default/grub"
 GRUB_PARAM="nvidia-drm.modeset=1"
@@ -23,47 +17,33 @@ sudo setsebool -P domain_kernel_load_modules on
 sudo dnf copr enable bieszczaders/kernel-cachyos
 sudo dnf install kernel-cachyos kernel-cachyos-devel-matched
 
-# Multimedia
-sudo dnf swap ffmpeg-free ffmpeg --allowerasing
-sudo dnf install @multimedia --setopt="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin
-
 # Installing nvidia proprietary drivers
 sudo dnf install kmod-nvidia xorg-x11-drv-nvidia-cuda akmod-nvidia nvidia-vaapi-driver libva-utils
 
 # Backup the GRUB config file
 sudo cp "$GRUB_FILE" "${GRUB_FILE}.bak"
-echo "Backed up $GRUB_FILE to ${GRUB_FILE}.bak"
-
-# Check if the parameter is already present
-if grep -q "$GRUB_PARAM" "$GRUB_FILE"; then
-    echo "$GRUB_PARAM is already present in $GRUB_FILE. No changes needed."
-    exit 0
-fi
 
 # Append the parameter to GRUB_CMDLINE_LINUX
 sudo sed -i "/^GRUB_CMDLINE_LINUX=/ s/\"$/ $GRUB_PARAM\"/" "$GRUB_FILE"
-if [[ $? -eq 0 ]]; then
-    echo "Successfully added $GRUB_PARAM to $GRUB_FILE"
-else
-    echo "Failed to modify $GRUB_FILE. Check permissions or file content."
-    exit 1
-fi
 
 # Update GRUB configuration
 sudo grub2-mkconfig -o "$OUTPUT_FILE"
-if [[ $? -eq 0 ]]; then
-    echo "GRUB configuration updated successfully at $OUTPUT_FILE"
-else
-    echo "Failed to update GRUB configuration. Check permissions or grub2-mkconfig."
-    exit 1
-fi
 
 # Installing packages
-dnf install gdm gnome-shell gnome-terminal gnome-tweaks nautilus gnome-terminal-nautilus gnome-disk-utility gnome-text-editor gnome-weather timeshift flatpak fedora-flathub-remote firefox thunderbird fastfetch vlc telegram-desktop transmission-gtk steam lutris wine winetricks protontricks mangohud papirus-icon-theme breeze-cursor-theme wget @virtualization
+sudo cdnf install gdm gnome-shell gnome-terminal gnome-tweaks nautilus gnome-terminal-nautilus gnome-disk-utility gnome-text-editor gnome-weather gnome-shell-extension-appindicator gnome-shell-extension-blur-my-shell gnome-shell-extension-dash-to-dock gnome-shell-extension-just-perfection gnome-shell-extension-user-theme timeshift flatpak fedora-flathub-remote firefox thunderbird fastfetch vlc telegram-desktop transmission-gtk steam lutris wine winetricks protontricks mangohud papirus-icon-theme breeze-cursor-theme wget @virtualization
 sudo sed -i 's/#unix_sock_group = "libvirt"/unix_sock_group = "libvirt"/g' /etc/libvirt/libvirtd.conf
 sudo sed -i 's/#unix_sock_rw_perms = "0770"/unix_sock_rw_perms = "0770"/g' /etc/libvirt/libvirtd.conf
 sudo systemctl enable libvirtd
 sudo usermod -aG libvirt "$(whoami)"
+
+# Multimedia
+sudo dnf swap ffmpeg-free ffmpeg --allowerasing
+sudo dnf install @multimedia --setopt="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin
+
+# grub-btrfs
+sudo dnf copr enable kylegospo/grub-btrfs
+sudo dnf install grub-btrfs-timeshift
+sudo systemctl enable --now grub-btrfs.path
 
 # Cloudflare
 curl -fsSl https://pkg.cloudflareclient.com/cloudflare-warp-ascii.repo | sudo tee /etc/yum.repos.d/cloudflare-warp.repo
@@ -74,6 +54,7 @@ sudo systemctl start warp-svc.service
 warp-cli registration new
 
 # Flathub
+sudo fedora-third-party enable
 flatpak install flathub com.github.tchx84.Flatseal com.usebottles.bottles com.vysp3r.ProtonPlus io.github.Foldex.AdwSteamGtk io.github.radiolamp.mangojuice org.prismlauncher.PrismLauncher com.mattjakeman.ExtensionManager io.github.realmazharhussain.GdmSettings com.stremio.Stremio info.febvre.Komikku
 
 # Fonts
@@ -81,7 +62,7 @@ sudo dnf copr enable aquacash5/nerd-fonts
 sudo dnf install google-roboto-fonts google-noto-fonts-all google-noto-fonts-all-static google-noto-fonts-all-vf google-noto-sans-cjk-fonts google-noto-sans-cjk-vf-fonts jet-brains-mono-nerd-fonts
 
 # Remove unnecessary packages
-sudo dnf remove zram* gnome-tour gnome-color-manager malcontent-control remote-viewer
+sudo dnf remove zram* vim* gnome-tour gnome-color-manager malcontent-control virt-viewer
 sudo dnf autoremove
 
 # Graphical target
@@ -92,7 +73,8 @@ mv ~/setup/wallpapers ~/.config
 mv ~/setup/fastfetch ~/.config
 
 # My .bashrc
-echo "#bash promit color
+echo "
+#bash promit color
 PS1='\[\033[1;32m\]\u\[\033[0;37m\]@\[\033[1;32m\]\h\[\033[0;37m\]:\W '
 
 #aliases
@@ -106,8 +88,10 @@ alias update='sudo dnf update'
 alias timeshiftC='sudo timeshift --create'
 alias timeshiftR='sudo timeshift --restore'
 alias timeshiftD='sudo timeshift --delete'
+alias update-grub='sudo grub2-mkconfig -o /boot/grub2/grub.cfg'
 
 #fastfetch logo
-fastfetch --logo-padding-left 1 --logo-padding-right 1 --color green --logo fedora_small" >> ~/.bashrc
+fastfetch --logo-padding-left 1 --logo-padding-right 1 --color green --logo fedora_small
+" >> ~/.bashrc
 
-echo "Script completed. Please reboot to apply changes."
+echo -e "\033[1;32mScript completed. Please reboot to apply changes.\033[0m"
