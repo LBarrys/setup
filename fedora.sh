@@ -30,11 +30,17 @@ sudo sed -i "/^GRUB_CMDLINE_LINUX=/ s/\"$/ $GRUB_PARAM\"/" "$GRUB_FILE"
 sudo grub2-mkconfig -o "$OUTPUT_FILE"
 
 # Installing packages
-sudo cdnf install gdm gnome-shell gnome-terminal gnome-tweaks nautilus gnome-terminal-nautilus gnome-disk-utility gnome-text-editor gnome-weather gnome-shell-extension-appindicator gnome-shell-extension-blur-my-shell gnome-shell-extension-dash-to-dock gnome-shell-extension-just-perfection gnome-shell-extension-user-theme timeshift flatpak fedora-flathub-remote firefox thunderbird fastfetch vlc telegram-desktop transmission-gtk steam lutris wine winetricks protontricks mangohud papirus-icon-theme breeze-cursor-theme wget @virtualization
+sudo dnf install timeshift flatpak fedora-flathub-remote firefox thunderbird fastfetch vlc telegram-desktop steam bottles wine winetricks protontricks mangohud papirus-icon-theme wget @virtualization
 sudo sed -i 's/#unix_sock_group = "libvirt"/unix_sock_group = "libvirt"/g' /etc/libvirt/libvirtd.conf
 sudo sed -i 's/#unix_sock_rw_perms = "0770"/unix_sock_rw_perms = "0770"/g' /etc/libvirt/libvirtd.conf
 sudo systemctl enable libvirtd
 sudo usermod -aG libvirt "$(whoami)"
+
+# GNOME
+# sudo dnf install gdm gnome-shell gnome-terminal gnome-tweaks nautilus gnome-terminal-nautilus gnome-disk-utility gnome-text-editor gnome-weather gnome-shell-extension-appindicator gnome-shell-extension-blur-my-shell gnome-shell-extension-dash-to-dock gnome-shell-extension-just-perfection gnome-shell-extension-user-theme transmission-gtk
+
+# Plasma
+# sudo dnf install sddm-kcm sddm-breeze plasma-desktop plasma-nm plasma-pa kscreen breeze-gtk kde-gtk-config xed nemo-fileroller alacritty transmission-qt breeze-cursor-theme
 
 # Multimedia
 sudo dnf swap ffmpeg-free ffmpeg --allowerasing
@@ -55,7 +61,7 @@ warp-cli registration new
 
 # Flathub
 sudo fedora-third-party enable
-flatpak install flathub com.github.tchx84.Flatseal com.usebottles.bottles com.vysp3r.ProtonPlus io.github.Foldex.AdwSteamGtk io.github.radiolamp.mangojuice org.prismlauncher.PrismLauncher com.mattjakeman.ExtensionManager io.github.realmazharhussain.GdmSettings com.stremio.Stremio info.febvre.Komikku
+flatpak install flathub com.github.tchx84.Flatseal com.vysp3r.ProtonPlus io.github.Foldex.AdwSteamGtk io.github.radiolamp.mangojuice org.prismlauncher.PrismLauncher com.mattjakeman.ExtensionManager io.github.realmazharhussain.GdmSettings com.stremio.Stremio info.febvre.Komikku
 
 # Fonts
 sudo dnf copr enable aquacash5/nerd-fonts
@@ -80,13 +86,14 @@ PS1='\[\033[1;32m\]\u\[\033[0;37m\]@\[\033[1;32m\]\h\[\033[0;37m\]:\W '
 #aliases
 alias ls='ls -a --color=auto'
 alias grep='grep --color=auto'
+alias cat='bat -pp'
 alias autoremove='sudo dnf autoremove'
-alias install='sudo dnf install'
-alias remove='sudo dnf remove'
-alias search='dnf search'
-alias update='sudo dnf update'
-alias timeshiftC='sudo timeshift --create'
-alias timeshiftR='sudo timeshift --restore'
+alias in='sudo dnf install'
+alias rm='sudo dnf remove'
+alias se='dnf search'
+alias up='sudo dnf update --refresh; flatpak update'
+alias timeshiftC='sudo timeshift --create && sudo grub2-mkconfig -o /boot/grub2/grub.cfg'
+alias timeshiftR='sudo timeshift --restore && sudo grub2-mkconfig -o /boot/grub2/grub.cfg'
 alias timeshiftD='sudo timeshift --delete'
 alias update-grub='sudo grub2-mkconfig -o /boot/grub2/grub.cfg'
 
