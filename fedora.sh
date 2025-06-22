@@ -30,7 +30,7 @@ sudo sed -i "/^GRUB_CMDLINE_LINUX=/ s/\"$/ $GRUB_PARAM\"/" "$GRUB_FILE"
 sudo grub2-mkconfig -o "$OUTPUT_FILE"
 
 # Installing packages
-sudo dnf install timeshift flatpak fedora-flathub-remote firefox thunderbird fastfetch vlc telegram-desktop steam bottles wine winetricks protontricks mangohud papirus-icon-theme wget @virtualization
+sudo dnf install timeshift flatpak firefox thunderbird fastfetch vlc telegram-desktop steam bottles wine winetricks protontricks mangohud papirus-icon-theme bat wget @virtualization
 sudo sed -i 's/#unix_sock_group = "libvirt"/unix_sock_group = "libvirt"/g' /etc/libvirt/libvirtd.conf
 sudo sed -i 's/#unix_sock_rw_perms = "0770"/unix_sock_rw_perms = "0770"/g' /etc/libvirt/libvirtd.conf
 sudo systemctl enable libvirtd
@@ -60,8 +60,8 @@ sudo systemctl start warp-svc.service
 warp-cli registration new
 
 # Flathub
-sudo fedora-third-party enable
-flatpak install flathub com.github.tchx84.Flatseal com.vysp3r.ProtonPlus io.github.Foldex.AdwSteamGtk io.github.radiolamp.mangojuice org.prismlauncher.PrismLauncher com.mattjakeman.ExtensionManager io.github.realmazharhussain.GdmSettings com.stremio.Stremio info.febvre.Komikku
+flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+flatpak install flathub com.github.tchx84.Flatseal com.vysp3r.ProtonPlus io.github.Foldex.AdwSteamGtk io.github.radiolamp.mangojuice com.mattjakeman.ExtensionManager io.github.realmazharhussain.GdmSettings com.stremio.Stremio info.febvre.Komikku
 
 # Fonts
 sudo dnf copr enable aquacash5/nerd-fonts
