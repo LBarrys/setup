@@ -6,8 +6,12 @@ GRUB_PARAM="nvidia-drm.modeset=1"
 OUTPUT_FILE="/boot/grub2/grub.cfg"
 
 # DNF configuration
-echo "max_parallel_downloads=5
-defaultyes=True" >> /etc/dnf/dnf.conf
+echo "
+fastestmirror=True
+max_parallel_downloads=5
+defaultyes=True
+countme=false
+" >> /etc/dnf/dnf.conf
 
 # Install free and nonfree repositories
 sudo dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
@@ -17,7 +21,7 @@ sudo setsebool -P domain_kernel_load_modules on
 sudo dnf copr enable bieszczaders/kernel-cachyos
 sudo dnf install kernel-cachyos kernel-cachyos-devel-matched
 
-# Installing nvidia proprietary drivers
+# Install nvidia proprietary drivers
 sudo dnf install kmod-nvidia xorg-x11-drv-nvidia-cuda akmod-nvidia nvidia-vaapi-driver libva-utils
 
 # Backup the GRUB config file
@@ -29,14 +33,14 @@ sudo sed -i "/^GRUB_CMDLINE_LINUX=/ s/\"$/ $GRUB_PARAM\"/" "$GRUB_FILE"
 # Update GRUB configuration
 sudo grub2-mkconfig -o "$OUTPUT_FILE"
 
-# Installing packages
+# Install RPMs
 sudo dnf install timeshift flatpak firefox thunderbird fastfetch vlc telegram-desktop steam bottles wine winetricks protontricks mangohud papirus-icon-theme bat wget @virtualization
 sudo sed -i 's/#unix_sock_group = "libvirt"/unix_sock_group = "libvirt"/g' /etc/libvirt/libvirtd.conf
 sudo sed -i 's/#unix_sock_rw_perms = "0770"/unix_sock_rw_perms = "0770"/g' /etc/libvirt/libvirtd.conf
 sudo systemctl enable libvirtd
 sudo usermod -aG libvirt "$(whoami)"
 
-# Flathub
+# Install Flatpaks
 flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 flatpak install flathub com.github.tchx84.Flatseal com.vysp3r.ProtonPlus io.github.Foldex.AdwSteamGtk io.github.radiolamp.mangojuice com.mattjakeman.ExtensionManager io.github.realmazharhussain.GdmSettings info.febvre.Komikku
 
@@ -50,12 +54,12 @@ flatpak install flathub com.github.tchx84.Flatseal com.vysp3r.ProtonPlus io.gith
 sudo dnf swap ffmpeg-free ffmpeg --allowerasing
 sudo dnf install @multimedia --setopt="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin
 
-# grub-btrfs
+# Install & set-up grub-btrfs
 sudo dnf copr enable kylegospo/grub-btrfs
 sudo dnf install grub-btrfs-timeshift
 sudo systemctl enable --now grub-btrfs.path
 
-# Cloudflare
+# Install & set-up Cloudflare-Warp
 curl -fsSl https://pkg.cloudflareclient.com/cloudflare-warp-ascii.repo | sudo tee /etc/yum.repos.d/cloudflare-warp.repo
 sudo dnf update
 sudo dnf install cloudflare-warp
@@ -63,20 +67,60 @@ sudo systemctl enable warp-svc.service
 sudo systemctl start warp-svc.service
 warp-cli registration new
 
-# Fonts
+# Install fonts
 sudo dnf copr enable aquacash5/nerd-fonts
 sudo dnf install google-roboto-fonts google-noto-fonts-all google-noto-fonts-all-static google-noto-fonts-all-vf google-noto-sans-cjk-fonts google-noto-sans-cjk-vf-fonts jet-brains-mono-nerd-fonts
 
-# MS fonts
+# Install MS fonts
 sudo dnf install curl cabextract xorg-x11-font-utils fontconfig
 sudo rpm -i https://downloads.sourceforge.net/project/mscorefonts2/rpms/msttcore-fonts-installer-2.6-1.noarch.rpm
 sudo fc-cache -fv
+
+# Encrypted DNS
+sudo tee /etc/systemd/system/cloudflared.service > /dev/null <<'EOF'
+[Unit]
+Description=Cloudflared DNS-over-HTTPS proxy
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/cloudflared proxy-dns --upstream https://1.1.1.1/dns-query --upstream https://1.0.0.1/dns-query
+Restart=on-failure
+User=nobody
+CapabilityBoundingSet=CAP_NET_BIND_SERVICE
+AmbientCapabilities=CAP_NET_BIND_SERVICE
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+sudo systemctl daemon-reexec
+sudo systemctl daemon-reload
+sudo systemctl enable --now cloudflared
+
+sudo mkdir -p /etc/systemd/resolved.conf.d
+sudo tee /etc/systemd/resolved.conf.d/dns-over-https.conf > /dev/null <<'EOF'
+[Resolve]
+DNS=127.0.0.1
+FallbackDNS=1.1.1.1
+DNSSEC=yes
+Cache=yes
+EOF
+
+sudo tee /etc/NetworkManager/conf.d/dns.conf > /dev/null <<'EOF'
+[main]
+dns=systemd-resolved
+EOF
+
+sudo systemctl restart cloudflared
+sudo systemctl restart systemd-resolved
+sudo systemctl restart NetworkManager
 
 # Remove unnecessary packages
 sudo dnf remove zram* vim* gnome-tour gnome-color-manager malcontent-control virt-viewer
 sudo dnf autoremove
 
-# Graphical target
+# Enable graphical.target
 sudo systemctl set-default graphical.target
 
 # My configs
