@@ -123,10 +123,6 @@ sudo dnf autoremove
 # Enable graphical.target
 sudo systemctl set-default graphical.target
 
-# My configs
-mv ~/setup/wallpapers ~/.config
-mv ~/setup/fastfetch ~/.config
-
 # My .bashrc
 echo "
 #bash promit color
