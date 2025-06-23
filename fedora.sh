@@ -76,46 +76,6 @@ sudo dnf install curl cabextract xorg-x11-font-utils fontconfig
 sudo rpm -i https://downloads.sourceforge.net/project/mscorefonts2/rpms/msttcore-fonts-installer-2.6-1.noarch.rpm
 sudo fc-cache -fv
 
-# Encrypted DNS
-sudo tee /etc/systemd/system/cloudflared.service > /dev/null <<'EOF'
-[Unit]
-Description=Cloudflared DNS-over-HTTPS proxy
-After=network.target
-
-[Service]
-ExecStart=/usr/bin/cloudflared proxy-dns --upstream https://1.1.1.1/dns-query --upstream https://1.0.0.1/dns-query
-Restart=on-failure
-User=nobody
-CapabilityBoundingSet=CAP_NET_BIND_SERVICE
-AmbientCapabilities=CAP_NET_BIND_SERVICE
-NoNewPrivileges=true
-
-[Install]
-WantedBy=multi-user.target
-EOF
-
-sudo systemctl daemon-reexec
-sudo systemctl daemon-reload
-sudo systemctl enable --now cloudflared
-
-sudo mkdir -p /etc/systemd/resolved.conf.d
-sudo tee /etc/systemd/resolved.conf.d/dns-over-https.conf > /dev/null <<'EOF'
-[Resolve]
-DNS=127.0.0.1
-FallbackDNS=1.1.1.1
-DNSSEC=yes
-Cache=yes
-EOF
-
-sudo tee /etc/NetworkManager/conf.d/dns.conf > /dev/null <<'EOF'
-[main]
-dns=systemd-resolved
-EOF
-
-sudo systemctl restart cloudflared
-sudo systemctl restart systemd-resolved
-sudo systemctl restart NetworkManager
-
 # Remove unnecessary packages
 sudo dnf remove zram* vim* gnome-tour gnome-color-manager malcontent-control virt-viewer
 sudo dnf autoremove
