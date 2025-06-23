@@ -34,7 +34,7 @@ sudo sed -i "/^GRUB_CMDLINE_LINUX=/ s/\"$/ $GRUB_PARAM\"/" "$GRUB_FILE"
 sudo grub2-mkconfig -o "$OUTPUT_FILE"
 
 # Install RPMs
-sudo dnf install timeshift flatpak firefox thunderbird fastfetch vlc telegram-desktop steam bottles wine winetricks protontricks mangohud papirus-icon-theme bat wget @virtualization
+sudo dnf install timeshift flatpak firefox thunderbird fastfetch vlc telegram-desktop steam wine winetricks protontricks mangohud papirus-icon-theme bat wget p7zip p7zip-plugins unzip unrar @virtualization
 sudo sed -i 's/#unix_sock_group = "libvirt"/unix_sock_group = "libvirt"/g' /etc/libvirt/libvirtd.conf
 sudo sed -i 's/#unix_sock_rw_perms = "0770"/unix_sock_rw_perms = "0770"/g' /etc/libvirt/libvirtd.conf
 sudo systemctl enable libvirtd
@@ -42,7 +42,7 @@ sudo usermod -aG libvirt "$(whoami)"
 
 # Install Flatpaks
 flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-flatpak install flathub com.github.tchx84.Flatseal com.vysp3r.ProtonPlus io.github.Foldex.AdwSteamGtk io.github.radiolamp.mangojuice com.mattjakeman.ExtensionManager io.github.realmazharhussain.GdmSettings info.febvre.Komikku
+flatpak install flathub com.github.tchx84.Flatseal com.vysp3r.ProtonPlus io.github.Foldex.AdwSteamGtk io.github.radiolamp.mangojuice com.mattjakeman.ExtensionManager io.github.realmazharhussain.GdmSettings info.febvre.Komikku com.usebottles.bottles
 
 # GNOME
 # sudo dnf install gdm gnome-shell gnome-terminal gnome-tweaks nautilus gnome-terminal-nautilus gnome-disk-utility gnome-text-editor gnome-weather gnome-shell-extension-appindicator gnome-shell-extension-blur-my-shell gnome-shell-extension-dash-to-dock gnome-shell-extension-just-perfection gnome-shell-extension-user-theme transmission-gtk
