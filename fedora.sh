@@ -70,12 +70,7 @@ sudo systemctl start warp-svc.service
 warp-cli registration new
 
 # Install fonts
-sudo dnf install google-roboto-fonts google-noto-fonts-all google-noto-fonts-all-static google-noto-fonts-all-vf google-noto-sans-cjk-fonts google-noto-sans-cjk-vf-fonts jetbrainsmono-nerd-fonts
-
-# Install MS fonts
-sudo dnf install curl cabextract xorg-x11-font-utils fontconfig
-sudo rpm -i https://downloads.sourceforge.net/project/mscorefonts2/rpms/msttcore-fonts-installer-2.6-1.noarch.rpm
-sudo fc-cache -fv
+sudo dnf install google-roboto-fonts google-noto-fonts-all google-noto-fonts-all-static google-noto-fonts-all-vf google-noto-sans-cjk-fonts google-noto-sans-cjk-vf-fonts ms-core-fonts jetbrainsmono-nerd-fonts
 
 # Remove unnecessary packages
 sudo dnf remove zram* vim* gnome-tour gnome-color-manager malcontent-control virt-viewer
