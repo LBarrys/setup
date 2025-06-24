@@ -31,7 +31,7 @@ sudo dnf update
 
 # Install CachyOS kernel
 sudo setsebool -P domain_kernel_load_modules on
-sudo dnf install kernel-cachyos kernel-cachyos-devel-matched
+sudo dnf install kernel-cachyos kernel-cachyos-devel-matched kernel-modules-extra
 
 # Install nvidia proprietary drivers
 sudo dnf install $Nvidia
