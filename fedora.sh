@@ -5,7 +5,7 @@ GRUB_FILE="/etc/default/grub"
 GRUB_PARAM="nvidia-drm.modeset=1"
 OUTPUT_FILE="/boot/grub2/grub.cfg"
 Nvidia="kmod-nvidia xorg-x11-drv-nvidia-cuda akmod-nvidia nvidia-vaapi-driver libva-utils"
-RPMs="timeshift grub-btrfs-timeshift cloudflare-warp flatpak flatseal firefox thunderbird gnome-disk-utility fastfetch vlc telegram-desktop komikku steam bottles wine winetricks protontricks mangohud papirus-icon-theme bat wget p7zip p7zip-plugins unrar @virtualization"
+RPMs="timeshift grub-btrfs-timeshift cloudflare-warp flatpak flatseal firefox thunderbird gnome-disk-utility fastfetch vlc telegram-desktop mission-center komikku steam bottles wine winetricks protontricks prismlauncher mangohud papirus-icon-theme bat wget p7zip p7zip-plugins unrar @virtualization"
 Flatpaks="com.vysp3r.ProtonPlus io.github.Foldex.AdwSteamGtk io.github.radiolamp.mangojuice com.mattjakeman.ExtensionManager io.github.realmazharhussain.GdmSettings"
 GNOME="gdm gnome-shell gnome-terminal gnome-tweaks nautilus gnome-terminal-nautilus gnome-text-editor gnome-weather gnome-shell-extension-appindicator gnome-shell-extension-blur-my-shell gnome-shell-extension-dash-to-dock gnome-shell-extension-just-perfection gnome-shell-extension-user-theme transmission-gtk"
 Plasma="sddm-kcm sddm-breeze plasma-desktop plasma-nm plasma-pa kscreen breeze-gtk kde-gtk-config xed nemo-fileroller alacritty transmission-qt breeze-cursor-theme"
@@ -36,7 +36,7 @@ sudo dnf install kernel-cachyos kernel-cachyos-devel-matched
 # Install nvidia proprietary drivers
 sudo dnf install $Nvidia
 
-# Configure GRUB fir nvidia drivers
+# Configure GRUB for nvidia drivers
 sudo cp "$GRUB_FILE" "${GRUB_FILE}.bak"
 sudo sed -i "/^GRUB_CMDLINE_LINUX=/ s/\"$/ $GRUB_PARAM\"/" "$GRUB_FILE"
 sudo grub2-mkconfig -o "$OUTPUT_FILE"
