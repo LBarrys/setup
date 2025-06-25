@@ -5,10 +5,11 @@ GRUB_FILE="/etc/default/grub"
 GRUB_PARAM="nvidia-drm.modeset=1"
 OUTPUT_FILE="/boot/grub2/grub.cfg"
 Nvidia="kmod-nvidia xorg-x11-drv-nvidia-cuda akmod-nvidia nvidia-vaapi-driver libva-utils"
-RPMs="timeshift grub-btrfs-timeshift cloudflare-warp flatpak flatseal firefox thunderbird gnome-disk-utility fastfetch vlc telegram-desktop mission-center komikku steam bottles wine winetricks protontricks prismlauncher mangohud papirus-icon-theme bat wget p7zip p7zip-plugins unrar @virtualization"
-Flatpaks="com.vysp3r.ProtonPlus io.github.Foldex.AdwSteamGtk io.github.radiolamp.mangojuice com.mattjakeman.ExtensionManager io.github.realmazharhussain.GdmSettings"
-GNOME="gdm gnome-shell gnome-terminal gnome-tweaks nautilus gnome-terminal-nautilus gnome-text-editor gnome-weather gnome-shell-extension-appindicator gnome-shell-extension-blur-my-shell gnome-shell-extension-dash-to-dock gnome-shell-extension-just-perfection gnome-shell-extension-user-theme transmission-gtk"
-Plasma="sddm-kcm sddm-breeze plasma-desktop plasma-nm plasma-pa kscreen breeze-gtk kde-gtk-config xed nemo-fileroller alacritty transmission-qt breeze-cursor-theme"
+RPMs="timeshift grub-btrfs-timeshift cloudflare-warp flatseal firefox thunderbird gnome-disk-utility fastfetch vlc telegram-desktop mission-center steam bottles wine winetricks protontricks prismlauncher mangohud papirus-icon-theme bat wget p7zip p7zip-plugins unrar @virtualization"
+Flatpaks="com.vysp3r.ProtonPlus io.github.Foldex.AdwSteamGtk io.github.radiolamp.mangojuice info.febvre.Komikku"
+GNOME="gdm gnome-shell gnome-terminal gnome-tweaks nautilus gnome-terminal-nautilus gnome-text-editor com.mattjakeman.ExtensionManager io.github.realmazharhussain.GdmSettings gnome-weather gnome-shell-extension-appindicator gnome-shell-extension-blur-my-shell gnome-shell-extension-dash-to-dock gnome-shell-extension-just-perfection gnome-shell-extension-user-theme transmission-gtk breeze-cursor-theme"
+Plasma="sddm-kcm sddm-breeze plasma-desktop plasma-nm plasma-pa kscreen breeze-gtk kde-gtk-config xed nemo-fileroller alacritty transmission-qt"
+Niri="niri lightdm lightdm-settings lxappearance nemo nemo-fillroller xed transmission-gtk breeze-cursor-theme"
 Fonts="google-roboto-fonts google-noto-fonts-all google-noto-fonts-all-static google-noto-fonts-all-vf google-noto-sans-cjk-fonts google-noto-sans-cjk-vf-fonts ms-core-fonts jetbrainsmono-nerd-fonts"
 Trash="zram* vim* gnome-tour gnome-color-manager plasma-welcome malcontent-control virt-viewer"
 
@@ -22,16 +23,22 @@ countme=false
 
 # Install/Enable repositories
 sudo dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
-dnf install --nogpgcheck --repofrompath 'terra,https://repos.fyralabs.com/terra$releasever' terra-release
+sudo dnf install flatpak
 flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+sudo dnf install --nogpgcheck --repofrompath 'terra,https://repos.fyralabs.com/terra$releasever' terra-release
 curl -fsSl https://pkg.cloudflareclient.com/cloudflare-warp-ascii.repo | sudo tee /etc/yum.repos.d/cloudflare-warp.repo
 sudo dnf copr enable bieszczaders/kernel-cachyos
+sudo dnf copr enable bieszczaders/kernel-cachyos-addons
 sudo dnf copr enable kylegospo/grub-btrfs
 sudo dnf update
 
-# Install CachyOS kernel
+# Install CachyOS stuff
 sudo setsebool -P domain_kernel_load_modules on
-sudo dnf install kernel-cachyos kernel-cachyos-devel-matched kernel-modules-extra
+sudo dnf install kernel-cachyos kernel-cachyos-devel-matched scx-scheds
+sudo systemctl enable --now scx.service
+sudo dnf install libcap-ng libcap-ng-devel procps-ng procps-ng-devel
+sudo dnf install uksmd
+sudo ksmctl -e
 
 # Install nvidia proprietary drivers
 sudo dnf install $Nvidia
@@ -54,6 +61,9 @@ sudo usermod -aG libvirt "$(whoami)"
 
 # Plasma
 # sudo dnf install $Plasma
+
+# Niri
+# sudo dnf install $Niri
 
 # Multimedia
 sudo dnf swap ffmpeg-free ffmpeg --allowerasing
