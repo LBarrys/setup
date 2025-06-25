@@ -68,6 +68,9 @@ sudo usermod -aG libvirt "$(whoami)"
 # Multimedia
 sudo dnf swap ffmpeg-free ffmpeg --allowerasing
 sudo dnf install @multimedia --setopt="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin
+sudo dnf install --setopt=install_weak_deps=false gstreamer1-plugins-{bad-\*,good-\*,base} gstreamer1-plugin-openh264 gstreamer1-libav --exclude=gstreamer1-plugins-bad-free-devel
+sudo dnf install flexiblas-openblas-serial
+sudo dnf install lame\* --exclude=lame-devel
 
 # Install fonts
 sudo dnf install $Fonts
