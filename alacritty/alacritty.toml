@@ -1,34 +1,52 @@
+[window]
+decorations = "None"
+padding = { x = 2, y = 2 }
+dynamic_padding = true
+
 [font]
-normal = { family = "JetBrainsMono Nerd Font Mono", style = "Regular" }
+normal = { family = "JetBrainsMono Nerd Font Mono", style = "Medium" }
 size = 12
 
 [colors.primary]
 foreground = "#FFFFFF"
-background = "#31363b"
+#background = "#31363b"
+background = "#2C2C2C"
 
 [colors.normal]
 black = "#000000"
-red = "#aa3347"
-green = "#329d22"
-yellow = "#a99728"
-blue = "#3281ab"
-magenta = "#8859a3"
-cyan = "#079c8a"
+#red = "#aa3347"
+red = "#E53935"
+#green = "#329d22"
+green = "#66BB6A"
+#yellow = "#a99728"
+yellow = "#FBC02D"
+#blue = "#3281ab"
+blue = "#2A7BDE"
+#magenta = "#8859a3"
+magenta = "#AB47BC"
+#cyan = "#079c8a"
+cyan = "#33C7DE"
 white = "#FFFFFF"
 
 [colors.bright]
 black = "#000000"
-red = "#aa3347"
-green = "#329d22"
-yellow = "#a99728"
-blue = "#3281ab"
-magenta = "#8859a3"
-cyan = "#079c8a"
+#red = "#aa3347"
+red = "#E53935"
+#green = "#329d22"
+green = "#66BB6A"
+#yellow = "#a99728"
+yellow = "#FBC02D"
+#blue = "#3281ab"
+blue = "#2A7BDE"
+#magenta = "#8859a3"
+magenta = "#AB47BC"
+#cyan = "#079c8a"
+cyan = "#33C7DE"
 white = "#FFFFFF"
+
+[selection]
+save_to_clipboard = true
 
 [cursor.style]
 shape = "Beam"
 blinking = "On"
-
-[terminal]
-osc52 = "CopyPaste"
