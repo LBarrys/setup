@@ -5,21 +5,19 @@ GRUB_FILE="/etc/default/grub"
 GRUB_PARAM="nvidia-drm.modeset=1"
 OUTPUT_FILE="/boot/grub2/grub.cfg"
 Nvidia="kmod-nvidia xorg-x11-drv-nvidia-cuda akmod-nvidia nvidia-vaapi-driver libva-utils"
-RPMs="timeshift grub-btrfs-timeshift cloudflare-warp flatseal firefox thunderbird gnome-disk-utility fastfetch vlc telegram-desktop mission-center steam steamtinkerlaunch bottles wine winetricks protontricks prismlauncher mangohud papirus-icon-theme bat wget p7zip p7zip-plugins unrar @virtualization"
+RPMs="alacritty timeshift grub-btrfs-timeshift cloudflare-warp flatseal firefox thunderbird gnome-disk-utility fastfetch vlc telegram-desktop mission-center steam steamtinkerlaunch bottles wine winetricks protontricks prismlauncher mangohud papirus-icon-theme bat wget p7zip p7zip-plugins unrar @virtualization"
 Flatpaks="com.vysp3r.ProtonPlus io.github.radiolamp.mangojuice info.febvre.Komikku"
-GNOME="gdm gnome-shell gnome-terminal gnome-tweaks nautilus gnome-terminal-nautilus gnome-text-editor com.mattjakeman.ExtensionManager io.github.realmazharhussain.GdmSettings io.github.Foldex.AdwSteamGtk gnome-weather gnome-shell-extension-appindicator gnome-shell-extension-blur-my-shell gnome-shell-extension-dash-to-dock gnome-shell-extension-just-perfection gnome-shell-extension-user-theme transmission-gtk breeze-cursor-theme"
+GNOME="gdm gnome-shell gnome-tweaks nautilus gnome-text-editor com.mattjakeman.ExtensionManager io.github.realmazharhussain.GdmSettings io.github.Foldex.AdwSteamGtk gnome-weather gnome-shell-extension-appindicator gnome-shell-extension-blur-my-shell gnome-shell-extension-dash-to-dock gnome-shell-extension-just-perfection gnome-shell-extension-user-theme transmission-gtk breeze-cursor-theme"
 Plasma="sddm-kcm sddm-breeze plasma-desktop plasma-nm plasma-pa kscreen breeze-gtk kde-gtk-config xed nemo-fileroller alacritty transmission-qt"
 Niri="niri lightdm lightdm-settings lxappearance nemo nemo-fillroller xed transmission-gtk breeze-cursor-theme"
 Fonts="google-roboto-fonts google-noto-fonts-all google-noto-fonts-all-static google-noto-fonts-all-vf google-noto-sans-cjk-fonts google-noto-sans-cjk-vf-fonts ms-core-fonts jetbrainsmono-nerd-fonts"
 Trash="zram* vim* gnome-tour gnome-color-manager malcontent-control gnome-extensions-app gnome-remote-desktop gnome-bluetooth dosbox-staging speech-dispatcher speech-dispatcher-utils sane-backends-drivers-cameras sane-backends-drivers-scanners plasma-welcome virt-viewer"
 
 # Configure DNF
-sudo echo "
-fastestmirror=True
+sudo echo "fastestmirror=True
 max_parallel_downloads=5
 defaultyes=True
-countme=false
-" >> /etc/dnf/dnf.conf
+countme=false" >> /etc/dnf/dnf.conf
 
 # Install/Enable repositories
 sudo dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
@@ -96,10 +94,10 @@ sudo systemctl enable warp-svc.service
 # My configs
 mv ~/setup/wallpapers ~/.config
 mv ~/setup/fastfetch ~/.config
+mv ~/setup/alacritty ~/.config
 
 # My .bashrc
-echo "
-#bash promit color
+echo "#bash promit color
 PS1='\[\033[1;32m\]\u\[\033[0;37m\]@\[\033[1;32m\]\h\[\033[0;37m\]:\W '
 
 #aliases
@@ -117,7 +115,6 @@ alias timeshiftD='sudo timeshift --delete'
 alias update-grub='sudo grub2-mkconfig -o /boot/grub2/grub.cfg'
 
 #fastfetch logo
-fastfetch --logo-padding-left 1 --logo-padding-right 1 --color green --logo fedora_small
-" >> ~/.bashrc
+fastfetch --logo-padding-left 1 --logo-padding-right 1 --color green --logo fedora_small" >> ~/.bashrc
 
 echo -e "\033[1;32mScript completed. Please reboot to apply changes.\033[0m"
