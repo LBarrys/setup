@@ -110,12 +110,6 @@ sudo systemctl enable tuned.service
 # Install fonts
 paru -S $Fonts
 
-# Systemd services
-sudo systemctl set-default graphical.target
-sudo systemctl disable NetworkManager-wait-online.service
-sudo systemctl enable --now grub-btrfs.path
-sudo systemctl enable warp-svc.service
-
 # My configs
 mv ~/setup/wallpapers ~/.config
 mv ~/setup/fastfetch ~/.config
