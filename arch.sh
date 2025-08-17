@@ -11,7 +11,8 @@ CONFIG_FILE="/etc/mkinitcpio.conf"
 BACKUP_FILE="${CONFIG_FILE}.bak"
 NEW_MODULES="nvidia nvidia_modeset nvidia_uvm nvidia_drm"
 Nvidia="nvidia-dkms nvidia-utils lib32-nvidia-utils opencl-nvidia lib32-opencl-nvidia linux-headers"
-PACMANs="ghostty timeshift grub-btrfs timeshift-autosnap inotify-tools cloudflare-warp-bin firefox betterbird-bin telegram-desktop gnome-disk-utility fastfetch vlc vlc-plugins-all mission-center adwsteamgtk mesa-git steam wine-staging wine-gecko wine-mono vkd3d lib32-vkd3d winetricks bottles dxvk-bin prismlauncher mangohud mangojuice komikku papirus-icon-theme papirus-folders bat wget 7zip unrar jre-openjdk qemu-full qemu-img libvirt virt-install virt-manager edk2-ovmf dnsmasq swtpm guestfs-tools libosinfo tuned protonplus"
+PACMANs="ghostty timeshift grub-btrfs timeshift-autosnap inotify-tools cloudflare-warp-bin firefox betterbird-bin telegram-desktop gnome-disk-utility fastfetch vlc vlc-plugins-all mission-center komikku papirus-icon-theme papirus-folders bat wget 7zip unrar jre-openjdk qemu-full qemu-img libvirt virt-install virt-manager edk2-ovmf dnsmasq swtpm guestfs-tools libosinfo tuned "
+Gaming="alsa-lib alsa-plugins fontconfig gamemode gamescope giflib glfw gnutls gst-plugin-pipewire gst-plugin-va gst-plugins-bad gst-plugins-bad-libs gst-plugins-base gst-plugins-base-libs gst-plugins-good gst-plugins-ugly gtk2 gtk2+extra gtk3 libgcrypt libgpg-error libjpeg-turbo libldap libpng libpulse libva libva-mesa-driver libxcomposite libxinerama libxslt mangohud mangojuice mpg123 ncurses ocl-icd openal opencl-icd-loader sqlite adwsteamgtk steam protonplus ttf-liberation v4l-utils vkd3d vulkan-icd-loader prismlauncher dxvk-bin bottles wine-gecko wine-mono wine-staging winetricks wqy-zenhei lib32-alsa-lib lib32-alsa-plugins lib32-fontconfig lib32-giflib lib32-gnutls lib32-gst-plugins-base-libs lib32-gst-plugins-good lib32-gtk3 lib32-libgcrypt lib32-libgpg-error lib32-libjpeg-turbo lib32-libldap lib32-libpng lib32-libpulse lib32-libva lib32-libva-mesa-driver lib32-libxcomposite lib32-libxinerama lib32-libxslt lib32-mangohud lib32-mpg123 lib32-ncurses lib32-ocl-icd lib32-openal lib32-sqlite lib32-v4l-utils lib32-vkd3d lib32-vulkan-icd-loader"
 GNOME="gdm gnome-shell gnome-tweaks gnome-control-center nautilus gnome-text-editor gdm-settings extension-manager gnome-weather transmission-gtk extra/breeze"
 Fonts="ttf-jetbrains-mono-nerd noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra ttf-roboto ttf-ms-fonts"
 
@@ -33,7 +34,7 @@ cp "$CONFIG_FILE" "$BACKUP_FILE"
 echo "Backup created at $BACKUP_FILE"
 
 # Use awk to modify the MODULES line
-awk -v new_mods="$NEW_MODULES" '
+awk -v new_mods="$NEW_MODULES" 
 BEGIN {
     split(new_mods, add_arr, " ")
     for (i in add_arr) {
@@ -80,7 +81,7 @@ END {
     if (!found) {
         printf "MODULES=(%s)\n", new_mods
     }
-}' "$CONFIG_FILE" > "$CONFIG_FILE.tmp"
+} "$CONFIG_FILE" > "$CONFIG_FILE.tmp"
 
 # Replace the original file
 mv "$CONFIG_FILE.tmp" "$CONFIG_FILE"
@@ -93,8 +94,9 @@ sudo grub-mkconfig -o /boot/grub/grub.cfg
 
 # Install RPMs & flatpaks
 yay -S $PACMANs
-sudo sed -i 's/#unix_sock_group = "libvirt"/unix_sock_group = "libvirt"/g' /etc/libvirt/libvirtd.conf
-sudo sed -i 's/#unix_sock_rw_perms = "0770"/unix_sock_rw_perms = "0770"/g' /etc/libvirt/libvirtd.conf
+yay -S $Gaming
+sudo sed -i s/#unix_sock_group = "libvirt"/unix_sock_group = "libvirt"/g /etc/libvirt/libvirtd.conf
+sudo sed -i s/#unix_sock_rw_perms = "0770"/unix_sock_rw_perms = "0770"/g /etc/libvirt/libvirtd.conf
 sudo systemctl enable libvirtd
 sudo usermod -aG libvirt "$(whoami)"
 sudo systemctl enable warp-svc.service
@@ -110,20 +112,20 @@ mv ~/setup/alacritty ~/.config
 
 #bashrc
 echo "#bash promit color
-PS1='\[\033[1;32m\]\u\[\033[0;37m\]@\[\033[1;32m\]\h\[\033[0;37m\]:\W '
+PS1=\[\033[1;32m\]\u\[\033[0;37m\]@\[\033[1;32m\]\h\[\033[0;37m\]:\W 
 
 #aliases
-alias ls='ls -a --color=auto'
-alias grep='grep --color=auto'
-alias cat='bat -pp'
-alias autorm='sudo pacman -Rns $(pacman -Qdtq)'
-alias in='sudo pacman -S'
-alias rm='sudo pacman -Rns'
-alias se='pacman -Ss'
-alias timeshiftC='sudo timeshift --create'
-alias timeshiftR='sudo timeshift --restore'
-alias timeshiftD='sudo timeshift --delete'
-alias update-grub='sudo grub-mkconfig -o /boot/grub/grub.cfg'
+alias ls=ls -a --color=auto
+alias grep=grep --color=auto
+alias cat=bat -pp
+alias autorm=sudo pacman -Rns $(pacman -Qdtq)
+alias in=sudo pacman -S
+alias rm=sudo pacman -Rns
+alias se=pacman -Ss
+alias timeshiftC=sudo timeshift --create
+alias timeshiftR=sudo timeshift --restore
+alias timeshiftD=sudo timeshift --delete
+alias update-grub=sudo grub-mkconfig -o /boot/grub/grub.cfg
 
 #fastfetch logo
 fastfetch --logo-padding-left 1 --logo-padding-right 1 --color green --logo arch_small" >> ~/.bashrc
