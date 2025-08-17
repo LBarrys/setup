@@ -1,9 +1,9 @@
 #!/bin/bash
 
-#Paru
+#yay
 cd
-git clone https://aur.archlinux.org/paru-bin.git
-cd paru-bin
+git clone https://aur.archlinux.org/yay-bin.git
+cd yay-bin
 makepkg -si
 
 # Identifiers
@@ -11,22 +11,16 @@ CONFIG_FILE="/etc/mkinitcpio.conf"
 BACKUP_FILE="${CONFIG_FILE}.bak"
 NEW_MODULES="nvidia nvidia_modeset nvidia_uvm nvidia_drm"
 Nvidia="nvidia-dkms nvidia-utils lib32-nvidia-utils opencl-nvidia lib32-opencl-nvidia linux-headers"
-PACMANs="flatpak alacritty timeshift grub-btrfs timeshift-autosnap inotify-tools cloudflare-warp-bin firefox thunderbird telegram-desktop gnome-disk-utility fastfetch vlc vlc-plugins-all mission-center steam wine winetricks dxvk-bin prismlauncher mangohud mangojuice komikku papirus-icon-theme papirus-folders bat wget 7zip unrar jre-openjdk prismlauncher qemu-full qemu-img libvirt virt-install virt-manager edk2-ovmf dnsmasq swtpm guestfs-tools libosinfo tuned"
-Flatpaks="com.vysp3r.ProtonPlus com.usebottles.bottles"
-GNOME="gdm gnome-shell gnome-tweaks gnome-control-center nautilus gnome-text-editor gdm-settings com.mattjakeman.ExtensionManager io.github.Foldex.AdwSteamGtk gnome-weather gnome-shell-extension-appindicator gnome-shell-extension-vitals transmission-gtk extra/breeze"
-Plasma="sddm-kcm plasma-desktop plasma-nm plasma-pa kscreen breeze-gtk kde-gtk-config nemo-fileroller xed transmission-qt"
-Fonts="ttf-jetbrains-mono-nerd noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra ttf-roboto"
+PACMANs="ghostty timeshift grub-btrfs timeshift-autosnap inotify-tools cloudflare-warp-bin firefox betterbird-bin telegram-desktop gnome-disk-utility fastfetch vlc vlc-plugins-all mission-center adwsteamgtk mesa-git steam wine-staging wine-gecko wine-mono vkd3d lib32-vkd3d winetricks bottles dxvk-bin prismlauncher mangohud mangojuice komikku papirus-icon-theme papirus-folders bat wget 7zip unrar jre-openjdk qemu-full qemu-img libvirt virt-install virt-manager edk2-ovmf dnsmasq swtpm guestfs-tools libosinfo tuned protonplus"
+GNOME="gdm gnome-shell gnome-tweaks gnome-control-center nautilus gnome-text-editor gdm-settings extension-manager gnome-weather transmission-gtk extra/breeze"
+Fonts="ttf-jetbrains-mono-nerd noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra ttf-roboto ttf-ms-fonts"
 
 # GNOME
-# paru -S $GNOME
-# sudo systemctl enable gdm
-
-# Plasma
-# paru -S $Plasma
-# sudo systemctl enable sddm
+yay -S $GNOME
+sudo systemctl enable gdm
 
 # Install nvidia proprietary drivers
-paru -S $Nvidia
+yay -S $Nvidia
 
 # Check if file exists
 if [ ! -f "$CONFIG_FILE" ]; then
@@ -98,8 +92,7 @@ sudo sed -i "s/GRUB_CMDLINE_LINUX=\"\"/GRUB_CMDLINE_LINUX=\"loglevel=3 quiet nvi
 sudo grub-mkconfig -o /boot/grub/grub.cfg
 
 # Install RPMs & flatpaks
-paru -S $PACMANs
-flatpak install flathub $Flatpaks
+yay -S $PACMANs
 sudo sed -i 's/#unix_sock_group = "libvirt"/unix_sock_group = "libvirt"/g' /etc/libvirt/libvirtd.conf
 sudo sed -i 's/#unix_sock_rw_perms = "0770"/unix_sock_rw_perms = "0770"/g' /etc/libvirt/libvirtd.conf
 sudo systemctl enable libvirtd
@@ -108,7 +101,7 @@ sudo systemctl enable warp-svc.service
 sudo systemctl enable tuned.service
 
 # Install fonts
-paru -S $Fonts
+yay -S $Fonts
 
 # My configs
 mv ~/setup/wallpapers ~/.config
