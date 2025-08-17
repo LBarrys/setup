@@ -105,10 +105,18 @@ sudo systemctl enable tuned.service
 # Install fonts
 yay -S $Fonts
 
+# Orchis theme
+cd
+git clone https://github.com/vinceliuice/Orchis-theme.git
+cd Orchis-theme
+./install.sh --theme green --color dark --size standard --icon arch --libadwaita --tweaks solid compact dock
+sudo cp -r ~/.themes/* /usr/share/themes
+
 # My configs
 mv ~/setup/wallpapers ~/.config
 mv ~/setup/fastfetch ~/.config
 mv ~/setup/alacritty ~/.config
+mv ~/setup/ghostty ~/.config
 
 #bashrc
 echo "#bash promit color
