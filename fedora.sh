@@ -83,10 +83,19 @@ sudo firewall-cmd --reload
 sudo dnf remove $Trash
 sudo dnf autoremove
 
+# Orchis theme
+cd
+git clone https://github.com/vinceliuice/Orchis-theme.git
+cd Orchis-theme
+./install.sh --theme green --color dark --size standard --icon fedora --libadwaita --tweaks solid compact dock
+sudo cp -r ~/.themes/* /usr/share/themes
+sudo flatpak override --filesystem=xdg-config/gtk-3.0 && sudo flatpak override --filesystem=xdg-config/gtk-4.0
+
 # My configs
 mv ~/setup/wallpapers ~/.config
 mv ~/setup/fastfetch ~/.config
 mv ~/setup/alacritty ~/.config
+mv ~/setup/ghostty ~/.config
 
 # My .bashrc
 echo "#bash promit color
