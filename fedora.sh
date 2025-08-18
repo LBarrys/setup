@@ -84,7 +84,7 @@ sudo dnf autoremove
 
 # Orchis theme
 cd
-sudo dnf in gnome-themes-extra gtk-murrine-engine -y
+sudo dnf install gnome-themes-extra gtk-murrine-engine -y
 git clone https://github.com/vinceliuice/Orchis-theme.git
 cd Orchis-theme
 ./install.sh --theme green --color dark --size standard --icon fedora --libadwaita --tweaks solid compact dock
