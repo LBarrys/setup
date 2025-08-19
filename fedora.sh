@@ -7,7 +7,7 @@ OUTPUT_FILE="/boot/grub2/grub.cfg"
 Nvidia="kmod-nvidia xorg-x11-drv-nvidia-cuda akmod-nvidia nvidia-vaapi-driver libva-utils"
 RPMs="ghostty timeshift grub-btrfs-timeshift cloudflare-warp firefox thunderbird fastfetch vlc Komikku telegram-desktop qbittorrent mission-center steam wine winetricks prismlauncher protonplus papirus-icon-theme bat wget p7zip p7zip-plugins unrar @virtualization"
 GNOME="gdm gdm-settings gnome-shell gnome-tweaks nautilus nautilus-open-any-terminal gnome-disk-utility gnome-text-editor extension-manager gnome-weather gnome-shell-extension-appindicator gnome-shell-extension-blur-my-shell gnome-shell-extension-dash-to-dock gnome-shell-extension-just-perfection gnome-shell-extension-user-theme breeze-cursor-theme"
-Fonts="google-roboto-fonts google-noto-fonts-all google-noto-sans-cjk-fonts ms-core-fonts jetbrainsmono-nerd-fonts"
+Fonts="ms-core-fonts google-roboto-fonts google-noto-fonts-all google-noto-sans-cjk-fonts jetbrainsmono-nerd-fonts"
 Trash="zram* vim* gnome-tour gnome-color-manager malcontent-control gnome-extensions-app gnome-remote-desktop gnome-bluetooth dosbox-staging speech-dispatcher speech-dispatcher-utils sane-backends-drivers-cameras sane-backends-drivers-scanners virt-viewer"
 
 # Configure DNF
@@ -89,7 +89,6 @@ git clone https://github.com/vinceliuice/Orchis-theme.git
 cd Orchis-theme
 ./install.sh --theme green --color dark --size standard --icon fedora --libadwaita --tweaks solid compact dock
 sudo cp -r ~/.themes/* /usr/share/themes
-sudo flatpak override --filesystem=xdg-config/gtk-3.0 && sudo flatpak override --filesystem=xdg-config/gtk-4.0
 
 # My configs
 mv ~/setup/wallpapers ~/.config
