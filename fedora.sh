@@ -11,9 +11,11 @@ Fonts="ms-core-fonts google-roboto-fonts google-noto-fonts-all google-noto-sans-
 Trash="zram* vim* gnome-tour gnome-color-manager malcontent-control gnome-extensions-app gnome-remote-desktop gnome-bluetooth dosbox-staging speech-dispatcher speech-dispatcher-utils sane-backends-drivers-cameras sane-backends-drivers-scanners virt-viewer"
 
 # Configure DNF
-sudo echo "fastestmirror=True
+printf "%s" "
+fastestmirror=True
 max_parallel_downloads=5
-defaultyes=True" >> /etc/dnf/dnf.conf
+defaultyes=True
+" | sudo tee -a /etc/dnf/dnf.conf
 
 # Install/Enable repositories
 sudo dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
@@ -48,8 +50,9 @@ sudo cp "$GRUB_FILE" "${GRUB_FILE}.bak"
 sudo sed -i "/^GRUB_CMDLINE_LINUX=/ s/\"$/ $GRUB_PARAM\"/" "$GRUB_FILE"
 sudo grub2-mkconfig -o "$OUTPUT_FILE"
 
-# RPMs & flatpaks & other stuff
+# RPMs & other stuff
 sudo dnf install $RPMs
+sudo dnf swap mesa-va-drivers mesa-va-drivers-freeworld
 sudo sed -i 's/#unix_sock_group = "libvirt"/unix_sock_group = "libvirt"/g' /etc/libvirt/libvirtd.conf
 sudo sed -i 's/#unix_sock_rw_perms = "0770"/unix_sock_rw_perms = "0770"/g' /etc/libvirt/libvirtd.conf
 sudo systemctl enable libvirtd
