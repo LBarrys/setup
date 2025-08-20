@@ -5,29 +5,28 @@ GRUB_FILE="/etc/default/grub"
 GRUB_PARAM="nvidia-drm.modeset=1"
 OUTPUT_FILE="/boot/grub2/grub.cfg"
 Nvidia="kmod-nvidia xorg-x11-drv-nvidia-cuda akmod-nvidia nvidia-vaapi-driver libva-utils"
-RPMs="ghostty timeshift grub-btrfs-timeshift cloudflare-warp firefox thunderbird fastfetch vlc vlc-plugins-all Komikku telegram-desktop qbittorrent mission-center steam wine winetricks lutris prismlauncher protonplus papirus-icon-theme bat wget p7zip p7zip-plugins unrar @virtualization"
+RPMs="ghostty timeshift grub-btrfs-timeshift cloudflare-warp firefox thunderbird fastfetch celluloid losange telegram-desktop transmission-gtk steam wine winetricks mangohud goverlay java-latest-openjdk prismlauncher protonplus papirus-icon-theme bat wget p7zip p7zip-plugins unrar @virtualization"
 GNOME="gdm gdm-settings gnome-shell gnome-tweaks nautilus nautilus-open-any-terminal gnome-disk-utility gnome-text-editor extension-manager gnome-weather gnome-shell-extension-appindicator gnome-shell-extension-blur-my-shell gnome-shell-extension-dash-to-dock gnome-shell-extension-just-perfection gnome-shell-extension-user-theme breeze-cursor-theme"
 Fonts="ms-core-fonts google-roboto-fonts google-noto-fonts-all google-noto-sans-cjk-fonts jetbrainsmono-nerd-fonts"
 Trash="zram* vim* gnome-tour gnome-color-manager malcontent-control gnome-extensions-app gnome-remote-desktop gnome-bluetooth dosbox-staging speech-dispatcher speech-dispatcher-utils sane-backends-drivers-cameras sane-backends-drivers-scanners virt-viewer"
 
 # Configure DNF
-sudo echo '
-fastestmirror=True
+sudo echo "fastestmirror=True
 max_parallel_downloads=5
-defaultyes=True
-' >> /etc/dnf/dnf.conf
+defaultyes=True" >> /etc/dnf/dnf.conf
 
 # Install/Enable repositories
-sudo dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm -y
-sudo dnf install --nogpgcheck --repofrompath 'terra,https://repos.fyralabs.com/terra$releasever' terra-release -y
-curl -fsSl https://pkg.cloudflareclient.com/cloudflare-warp-ascii.repo | sudo tee /etc/yum.repos.d/cloudflare-warp.repo -y
-sudo dnf copr enable bieszczaders/kernel-cachyos -y
-sudo dnf copr enable bieszczaders/kernel-cachyos-addons -y
-sudo dnf copr enable kylegospo/grub-btrfs -y
-sudo dnf copr enable wehagy/protonplus -y
-sudo dnf copr enable umutd3401/extension-manager -y
-sudo dnf copr enable reanimator/gdm-settings -y
-sudo dnf copr enable monkeygold/nautilus-open-any-terminal -y
+sudo dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+sudo dnf install --nogpgcheck --repofrompath 'terra,https://repos.fyralabs.com/terra$releasever' terra-release
+curl -fsSl https://pkg.cloudflareclient.com/cloudflare-warp-ascii.repo | sudo tee /etc/yum.repos.d/cloudflare-warp.repo
+sudo dnf copr enable bieszczaders/kernel-cachyos
+sudo dnf copr enable bieszczaders/kernel-cachyos-addons
+sudo dnf copr enable kylegospo/grub-btrfs
+sudo dnf copr enable wehagy/protonplus
+sudo dnf copr enable umutd3401/extension-manager
+sudo dnf copr enable reanimator/gdm-settings
+sudo dnf copr enable monkeygold/nautilus-open-any-terminal
+sudo dnf copr enable tymmesyde/Losange
 sudo dnf update
 
 # GNOME
@@ -84,7 +83,7 @@ sudo dnf autoremove
 
 # Orchis theme
 cd
-sudo dnf install gnome-themes-extra gtk-murrine-engine -y
+sudo dnf install gnome-themes-extra gtk-murrine-engine
 git clone https://github.com/vinceliuice/Orchis-theme.git
 cd Orchis-theme
 ./install.sh --theme green --color dark --size standard --icon fedora --libadwaita --tweaks solid compact dock
