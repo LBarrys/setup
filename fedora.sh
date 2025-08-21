@@ -17,7 +17,7 @@ max_parallel_downloads=5
 defaultyes=True
 " | sudo tee -a /etc/dnf/dnf.conf
 
-# Install/Enable repositories
+# Install/Enable Repositories
 sudo dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 curl -fsSl https://pkg.cloudflareclient.com/cloudflare-warp-ascii.repo | sudo tee /etc/yum.repos.d/cloudflare-warp.repo
 sudo dnf copr enable bieszczaders/kernel-cachyos -y
@@ -36,7 +36,7 @@ sudo dnf update
 # GNOME
 sudo dnf install $GNOME
 
-# CachyOS stuff
+# CachyOS Stuff
 sudo setsebool -P domain_kernel_load_modules on
 sudo dnf install kernel-cachyos kernel-cachyos-devel-matched scx-scheds
 sudo systemctl enable --now scx.service
@@ -44,15 +44,15 @@ sudo dnf install libcap-ng libcap-ng-devel procps-ng procps-ng-devel
 sudo dnf install uksmd
 sudo ksmctl -e
 
-# NVIDIA proprietary drivers
+# NVIDIA Proprietary Drivers
 sudo dnf install $Nvidia
 
-# Configure GRUB for nvidia drivers
+# Configure GRUB for NVIDIA Drivers
 sudo cp "$GRUB_FILE" "${GRUB_FILE}.bak"
 sudo sed -i "/^GRUB_CMDLINE_LINUX=/ s/\"$/ $GRUB_PARAM\"/" "$GRUB_FILE"
 sudo grub2-mkconfig -o "$OUTPUT_FILE"
 
-# RPMs & other stuff
+# RPMs & Other Stuff
 sudo dnf install $RPMs
 sudo dnf swap mesa-va-drivers mesa-va-drivers-freeworld
 sudo systemctl disable NetworkManager-wait-online.service
@@ -77,18 +77,18 @@ sudo firewall-cmd --permanent --remove-service=ssh
 sudo firewall-cmd --permanent --remove-service=samba-client
 sudo firewall-cmd --reload
 
-# Remove unnecessary packages
+# Remove Unnecessary Packages
 sudo dnf remove $Trash
 sudo dnf autoremove
 
-# Orchis theme
+# Orchis Theme
 cd
 git clone https://github.com/vinceliuice/Orchis-theme.git
 cd Orchis-theme
 ./install.sh --theme green --color dark --size standard --icon fedora --libadwaita --tweaks solid compact dock
 sudo cp -r ~/.themes/* /usr/share/themes
 
-# My configs
+# My Configs
 mv ~/setup/wallpapers ~/.config
 mv ~/setup/fastfetch ~/.config
 mv ~/setup/alacritty ~/.config
