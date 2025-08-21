@@ -17,3 +17,6 @@ palette = 7=#FFFFFF
 cursor-color = #FFFFFF
 cursor-style = bar
 cursor-style-blink = true
+# window size
+window-width = 96
+window-height = 33
