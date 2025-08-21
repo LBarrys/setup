@@ -20,16 +20,17 @@ defaultyes=True
 # Install/Enable repositories
 sudo dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 curl -fsSl https://pkg.cloudflareclient.com/cloudflare-warp-ascii.repo | sudo tee /etc/yum.repos.d/cloudflare-warp.repo
-sudo dnf copr enable bieszczaders/kernel-cachyos
-sudo dnf copr enable bieszczaders/kernel-cachyos-addons
-sudo dnf copr enable kylegospo/grub-btrfs
-sudo dnf copr enable scottames/ghostty
-sudo dnf copr enable wehagy/protonplus
-sudo dnf copr enable umutd3401/extension-manager
-sudo dnf copr enable reanimator/gdm-settings
-sudo dnf copr enable monkeygold/nautilus-open-any-terminal
-sudo dnf copr enable tymmesyde/Losange
-sudo dnf copr enable aquacash5/nerd-fonts
+sudo dnf copr enable bieszczaders/kernel-cachyos -y
+sudo dnf copr enable bieszczaders/kernel-cachyos-addons -y
+sudo dnf copr enable kylegospo/grub-btrfs -y
+sudo dnf copr enable scottames/ghostty -y
+sudo dnf copr enable wehagy/protonplus -y
+sudo dnf copr enable g3tchoo/prismlauncher -y
+sudo dnf copr enable umutd3401/extension-manager -y
+sudo dnf copr enable reanimator/gdm-settings -y
+sudo dnf copr enable monkeygold/nautilus-open-any-terminal -y
+sudo dnf copr enable tymmesyde/Losange -y
+sudo dnf copr enable aquacash5/nerd-fonts -y
 sudo dnf update
 
 # GNOME
