@@ -5,7 +5,7 @@ GRUB_FILE="/etc/default/grub"
 GRUB_PARAM="nvidia-drm.modeset=1"
 OUTPUT_FILE="/boot/grub2/grub.cfg"
 Nvidia="kmod-nvidia xorg-x11-drv-nvidia-cuda akmod-nvidia nvidia-vaapi-driver libva-utils"
-RPMs="ghostty timeshift grub-btrfs-timeshift cloudflare-warp firefox thunderbird fastfetch celluloid losange telegram-desktop transmission-gtk steam wine winetricks mangohud goverlay java-latest-openjdk prismlauncher protonplus papirus-icon-theme bat wget p7zip p7zip-plugins unrar @virtualization"
+RPMs="ghostty timeshift grub-btrfs-timeshift cloudflare-warp firefox thunderbird fastfetch celluloid losange telegram-desktop transmission-gtk steam wine winetricks mangohud goverlay java-latest-openjdk prismlauncher protonplus papirus-icon-theme bat wget p7zip p7zip-plugins unrar gnome-boxes"
 GNOME="gdm gdm-settings gnome-shell gnome-tweaks nautilus nautilus-open-any-terminal gnome-disk-utility gnome-text-editor extension-manager gnome-weather gnome-shell-extension-appindicator gnome-shell-extension-blur-my-shell gnome-shell-extension-dash-to-dock gnome-shell-extension-just-perfection gnome-shell-extension-user-theme breeze-cursor-theme"
 Fonts="curl cabextract xorg-x11-font-utils fontconfig google-roboto-fonts google-noto-fonts-all google-noto-sans-cjk-fonts jet-brains-mono-nerd-fonts"
 Trash="zram* vim* gnome-tour gnome-color-manager malcontent-control gnome-extensions-app gnome-remote-desktop gnome-bluetooth dosbox-staging speech-dispatcher speech-dispatcher-utils sane-backends-drivers-cameras sane-backends-drivers-scanners virt-viewer"
@@ -55,10 +55,6 @@ sudo grub2-mkconfig -o "$OUTPUT_FILE"
 # RPMs & other stuff
 sudo dnf install $RPMs
 sudo dnf swap mesa-va-drivers mesa-va-drivers-freeworld
-sudo sed -i 's/#unix_sock_group = "libvirt"/unix_sock_group = "libvirt"/g' /etc/libvirt/libvirtd.conf
-sudo sed -i 's/#unix_sock_rw_perms = "0770"/unix_sock_rw_perms = "0770"/g' /etc/libvirt/libvirtd.conf
-sudo systemctl enable libvirtd
-sudo usermod -aG libvirt "$(whoami)"
 sudo systemctl disable NetworkManager-wait-online.service
 sudo systemctl enable --now grub-btrfs.path
 sudo systemctl enable warp-svc.service
