@@ -20,8 +20,8 @@ defaultyes=True
 # Install/Enable Repositories
 sudo dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 curl -fsSl https://pkg.cloudflareclient.com/cloudflare-warp-ascii.repo | sudo tee /etc/yum.repos.d/cloudflare-warp.repo
-sudo dnf copr enable bieszczaders/kernel-cachyos -y
-sudo dnf copr enable bieszczaders/kernel-cachyos-addons -y
+#sudo dnf copr enable bieszczaders/kernel-cachyos -y
+#sudo dnf copr enable bieszczaders/kernel-cachyos-addons -y
 sudo dnf copr enable kylegospo/grub-btrfs -y
 sudo dnf copr enable scottames/ghostty -y
 sudo dnf copr enable wehagy/protonplus -y
@@ -31,18 +31,21 @@ sudo dnf copr enable reanimator/gdm-settings -y
 sudo dnf copr enable monkeygold/nautilus-open-any-terminal -y
 sudo dnf copr enable tymmesyde/Losange -y
 sudo dnf copr enable aquacash5/nerd-fonts -y
-sudo dnf update
+sudo dnf config-manager setopt updates-testing.enabled=1
+sudo dnf config-manager setopt rpmfusion-free-updates-testing.enabled=1
+sudo dnf config-manager setopt rpmfusion-nonfree-updates-testing.enabled=1
+sudo dnf update --refresh
 
 # GNOME
 sudo dnf install $GNOME
 
 # CachyOS Stuff
-sudo setsebool -P domain_kernel_load_modules on
-sudo dnf install kernel-cachyos kernel-cachyos-devel-matched scx-scheds
-sudo systemctl enable --now scx.service
-sudo dnf install libcap-ng libcap-ng-devel procps-ng procps-ng-devel
-sudo dnf install uksmd
-sudo ksmctl -e
+#sudo setsebool -P domain_kernel_load_modules on
+#sudo dnf install kernel-cachyos kernel-cachyos-devel-matched scx-scheds
+#sudo systemctl enable --now scx.service
+#sudo dnf install libcap-ng libcap-ng-devel procps-ng procps-ng-devel
+#sudo dnf install uksmd
+#sudo ksmctl -e
 
 # NVIDIA Proprietary Drivers
 sudo dnf install $Nvidia
