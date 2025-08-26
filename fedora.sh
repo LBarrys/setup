@@ -25,10 +25,6 @@ FlatpaksGNOME="com.mattjakeman.ExtensionManager io.github.realmazharhussain.GdmS
 Xfcei3="lightdm-gtk lightmdm-gtk-greeter-settings i3 xfce4-session xfce4-panel xfce4-settings xfconf xfdesktop thunar xrandr xfce4-whiskermenu-plugin xfce4-clipman-plugin xfce4-pulseaudio-plugin xfce4-datetime-plugin alacritty xed ulauncher vlc vlc-plugins-all"
 # sudo dnf install $Xfcei3
 
-# CachyOS Kernel
-sudo setsebool -P domain_kernel_load_modules on
-sudo dnf install kernel-cachyos kernel-cachyos-devel-matched scx-scheds
-
 # NVIDIA
 GRUB_FILE="/etc/default/grub"
 GRUB_PARAM="nvidia-drm.modeset=1"
