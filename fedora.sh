@@ -9,12 +9,10 @@ defaultyes=True
 
 # Install/Enable Repositories
 sudo dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm -y
-sudo dnf install --nogpgcheck --repofrompath 'terra,https://repos.fyralabs.com/terra$releasever' terra-release -y
 sudo dnf install flatpak -y
 flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+sudo dnf install --nogpgcheck --repofrompath 'terra,https://repos.fyralabs.com/terra$releasever' terra-release -y
 curl -fsSl https://pkg.cloudflareclient.com/cloudflare-warp-ascii.repo | sudo tee /etc/yum.repos.d/cloudflare-warp.repo
-sudo dnf copr enable bieszczaders/kernel-cachyos -y
-sudo dnf copr enable kylegospo/grub-btrfs -y
 sudo dnf update
 
 # GNOME
@@ -50,9 +48,13 @@ flatpak install flathub $Flatpaks
 sudo dnf install $RPMs
 sudo dnf swap mesa-va-drivers mesa-va-drivers-freeworld
 sudo systemctl disable NetworkManager-wait-online.service
-sudo systemctl enable --now grub-btrfs.path
 sudo systemctl enable warp-svc.service
 sudo systemctl set-default graphical.target
+
+# Build grub-btrfs
+cd
+git clone https://github.com/Antynea/grub-btrfs.git
+make install
 
 # Multimedia
 sudo dnf swap ffmpeg-free ffmpeg --allowerasing
@@ -85,10 +87,7 @@ sudo flatpak override --filesystem=xdg-config/gtk-3.0 && sudo flatpak override -
 sudo cp -r ~/.themes/* /usr/share/themes
 
 # My Configs
-mv ~/setup/wallpapers ~/.config
-mv ~/setup/fastfetch ~/.config
-mv ~/setup/alacritty ~/.config
-mv ~/setup/ghostty ~/.config
+cp -r ~/setup/dotfiles/* ~/.config
 
 # My .bashrc
 echo "#bash promit color
@@ -114,4 +113,4 @@ alias update-grub='sudo grub2-mkconfig -o /boot/grub2/grub.cfg'
 #fastfetch logo
 fastfetch --logo-padding-left 1 --logo-padding-right 1 --color green --logo fedora_small" >> ~/.bashrc
 
-echo -e "\033[1;32mScript completed. Please reboot to apply changes.\033[0m"
+echo -e "\033[1;32mScript completed. Please reboot to apply changes. DO NOT FORGOT GRUB_BTRFS. \033[0m"
