@@ -44,7 +44,7 @@ sudo sed -i "/^GRUB_CMDLINE_LINUX=/ s/\"$/ $GRUB_PARAM\"/" "$GRUB_FILE"
 sudo grub2-mkconfig -o "$OUTPUT_FILE"
 
 # RPMs & Flatpaks & Systemd Services
-RPMs="gnome-disk-utility timeshift grub-btrfs-timeshift cloudflare-warp firefox thunderbird fastfetch transmission-gtk steam mangohud java-21-openjdk papirus-icon-theme bat wget p7zip p7zip-plugins unrar gnome-boxes"
+RPMs="gnome-disk-utility timeshift inotify-tools cloudflare-warp firefox thunderbird fastfetch transmission-gtk steam mangohud java-21-openjdk papirus-icon-theme bat wget p7zip p7zip-plugins unrar gnome-boxes"
 Flatpaks="com.github.tchx84.Flatseal com.vysp3r.ProtonPlus io.github.radiolamp.mangojuice info.febvre.Komikku com.usebottles.bottles com.stremio.Stremio"
 flatpak install flathub $Flatpaks
 sudo dnf install $RPMs
