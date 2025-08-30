@@ -11,35 +11,30 @@ defaultyes=True
 sudo dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm -y
 sudo dnf install flatpak -y
 flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-sudo dnf install --nogpgcheck --repofrompath 'terra,https://repos.fyralabs.com/terra$releasever' terra-release -y
+# sudo dnf install --nogpgcheck --repofrompath 'terra,https://repos.fyralabs.com/terra$releasever' terra-release -y
 curl -fsSl https://pkg.cloudflareclient.com/cloudflare-warp-ascii.repo | sudo tee /etc/yum.repos.d/cloudflare-warp.repo
 sudo dnf update
 
 # GNOME
-GNOME="ghostty gdm gnome-shell gnome-tweaks nautilus nautilus-open-any-terminal gnome-text-editor gnome-weather gnome-shell-extension-appindicator gnome-shell-extension-blur-my-shell gnome-shell-extension-dash-to-dock gnome-shell-extension-just-perfection gnome-shell-extension-user-theme breeze-cursor-theme celluloid"
-FlatpaksGNOME="com.mattjakeman.ExtensionManager io.github.realmazharhussain.GdmSettings"
-# sudo dnf install $GNOME
-# flatpak install flathub $FlatpaksGNOME
-
-# Xfcei3
-Xfcei3="lightdm-gtk lightmdm-gtk-greeter-settings i3 xfce4-session xfce4-panel xfce4-settings xfconf xfdesktop thunar xrandr xfce4-whiskermenu-plugin xfce4-clipman-plugin xfce4-pulseaudio-plugin xfce4-datetime-plugin alacritty xed ulauncher vlc vlc-plugins-all"
-# sudo dnf install $Xfcei3
+GNOME="gdm gnome-shell gnome-tweaks nautilus"
+FlatpaksGNOME="com.mattjakeman.ExtensionManager io.github.realmazharhussain.GdmSettings org.gnome.Weather org.gnome.TextEditor"
+sudo dnf install $GNOME
+flatpak install flathub $FlatpaksGNOME
 
 # NVIDIA
 GRUB_FILE="/etc/default/grub"
 GRUB_PARAM="nvidia-drm.modeset=1"
-OUTPUT_FILE="/boot/grub2/grub.cfg"
 Nvidia="kmod-nvidia xorg-x11-drv-nvidia-cuda akmod-nvidia nvidia-vaapi-driver libva-utils"
   # NVIDIA Proprietary Drivers
 sudo dnf install $Nvidia
   # Configure GRUB for NVIDIA Drivers
 sudo cp "$GRUB_FILE" "${GRUB_FILE}.bak"
 sudo sed -i "/^GRUB_CMDLINE_LINUX=/ s/\"$/ $GRUB_PARAM\"/" "$GRUB_FILE"
-sudo grub2-mkconfig -o "$OUTPUT_FILE"
+sudo grub2-mkconfig -o /boot/grub2/grub.cfg
 
 # RPMs & Flatpaks & Systemd Services
-RPMs="gnome-disk-utility timeshift inotify-tools cloudflare-warp firefox thunderbird fastfetch transmission-gtk steam mangohud java-21-openjdk papirus-icon-theme bat wget p7zip p7zip-plugins unrar gnome-boxes"
-Flatpaks="com.github.tchx84.Flatseal com.vysp3r.ProtonPlus io.github.radiolamp.mangojuice info.febvre.Komikku com.usebottles.bottles com.stremio.Stremio"
+RPMs="gnome-disk-utility timeshift inotify-tools cloudflare-warp fastfetch java-21-openjdk papirus-icon-theme breeze-cursor-theme bat wget p7zip p7zip-plugins unrar"
+Flatpaks="app.devsuite.Ptyxis com.github.tchx84.Flatseal io.github.flattool.Warehouse io.github.kolunmi.Bazaar org.mozilla.firefox eu.betterbird.Betterbird org.gnome.Boxes info.febvre.Komikku com.stremio.Stremio com.transmissionbt.Transmission io.github.celluloid_player.Celluloid org.prismlauncher.PrismLauncher com.usebottles.bottles io.github.radiolamp.mangojuice com.valvesoftware.Steam.VulkanLayer.MangoHud com.valvesoftware.Steam.Utility.steamtinkerlaunch com.valvesoftware.Steam.CompatibilityTool.Proton-GE io.github.Foldex.AdwSteamGtk com.valvesoftware.Steam.Utility.protontricks com.valvesoftware.Steam"
 flatpak install flathub $Flatpaks
 sudo dnf install $RPMs
 sudo dnf swap mesa-va-drivers mesa-va-drivers-freeworld
@@ -50,15 +45,22 @@ sudo systemctl set-default graphical.target
 # Build grub-btrfs
 cd
 git clone https://github.com/Antynea/grub-btrfs.git
-make install
+cd grub-btrfs
+sed -i '/#GRUB_BTRFS_SNAPSHOT_KERNEL/a GRUB_BTRFS_SNAPSHOT_KERNEL_PARAMETERS="systemd.volatile=state"' config
+sed -i '/#GRUB_BTRFS_GRUB_DIRNAME/a GRUB_BTRFS_GRUB_DIRNAME="/boot/grub2"' config
+sed -i '/#GRUB_BTRFS_MKCONFIG=/a GRUB_BTRFS_MKCONFIG=/sbin/grub2-mkconfig' config
+sed -i '/#GRUB_BTRFS_SCRIPT_CHECK=/a GRUB_BTRFS_SCRIPT_CHECK=grub2-script-check' config
+sudo make install
+sudo grub2-mkconfig -o /boot/grub2/grub.cfg
 
 # Multimedia
 sudo dnf swap ffmpeg-free ffmpeg --allowerasing
-sudo dnf install @multimedia --setopt="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin
+sudo dnf install @multimedia
 
 # Fonts
-Fonts="ms-core-fonts google-roboto-fonts google-noto-fonts-all google-noto-sans-cjk-fonts jetbrainsmono-nerd-fonts"
+Fonts="curl cabextract xorg-x11-font-utils fontconfig google-roboto-fonts google-noto-fonts-all google-noto-sans-cjk-fonts jetbrains-mono-fonts"
 sudo dnf install $Fonts
+sudo rpm -i https://downloads.sourceforge.net/project/mscorefonts2/rpms/msttcore-fonts-installer-2.6-1.noarch.rpm
 
 # Remove Firewalld's Default Rules
 sudo firewall-cmd --permanent --remove-port=1025-65535/udp
@@ -98,7 +100,7 @@ alias in='sudo dnf install'
 alias rm='sudo dnf remove'
 alias se='dnf search'
 alias up='sudo dnf update --refresh; flatpak update'
-alias flatin='flatpak flathub install'
+alias flatin='flatpak install flathub'
 alias flatrm='flatpak remove'
 alias flatse='flatpak search'
 alias timeshiftC='sudo timeshift --create && sudo grub2-mkconfig -o /boot/grub2/grub.cfg'
