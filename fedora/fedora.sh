@@ -16,8 +16,8 @@ curl -fsSl https://pkg.cloudflareclient.com/cloudflare-warp-ascii.repo | sudo te
 sudo dnf update
 
 # GNOME
-GNOME="gdm gnome-shell gnome-tweaks nautilus"
-FlatpaksGNOME="com.mattjakeman.ExtensionManager io.github.realmazharhussain.GdmSettings org.gnome.Weather org.gnome.TextEditor"
+GNOME="gdm gnome-shell gnome-tweaks nautilus gnome-textdditor gnome-weather"
+FlatpaksGNOME="com.mattjakeman.ExtensionManager io.github.realmazharhussain.GdmSettings"
 sudo dnf install $GNOME
 flatpak install flathub $FlatpaksGNOME
 
@@ -33,8 +33,8 @@ sudo sed -i "/^GRUB_CMDLINE_LINUX=/ s/\"$/ $GRUB_PARAM\"/" "$GRUB_FILE"
 sudo grub2-mkconfig -o /boot/grub2/grub.cfg
 
 # RPMs & Flatpaks & Systemd Services
-RPMs="gnome-disk-utility timeshift inotify-tools cloudflare-warp fastfetch java-21-openjdk papirus-icon-theme breeze-cursor-theme bat wget p7zip p7zip-plugins unrar"
-Flatpaks="app.devsuite.Ptyxis com.github.tchx84.Flatseal io.github.flattool.Warehouse io.github.kolunmi.Bazaar org.mozilla.firefox eu.betterbird.Betterbird org.gnome.Boxes info.febvre.Komikku com.stremio.Stremio com.transmissionbt.Transmission io.github.celluloid_player.Celluloid org.prismlauncher.PrismLauncher com.usebottles.bottles io.github.radiolamp.mangojuice com.valvesoftware.Steam.VulkanLayer.MangoHud com.valvesoftware.Steam.Utility.steamtinkerlaunch com.valvesoftware.Steam.CompatibilityTool.Proton-GE io.github.Foldex.AdwSteamGtk com.valvesoftware.Steam.Utility.protontricks com.valvesoftware.Steam"
+RPMs="firefox thunderbird transmission-gtk vlc vlc-plugins-all wine winetricks steam mangohud gnome-disk-utility timeshift inotify-tools cloudflare-warp fastfetch java-21-openjdk papirus-icon-theme breeze-cursor-theme bat wget p7zip p7zip-plugins unrar"
+Flatpaks="com.github.tchx84.Flatseal info.febvre.Komikku com.stremio.Stremio io.github.radiolamp.mangojuice io.github.Foldex.AdwSteamGtk com.vysp3r.ProtonPlus"
 flatpak install flathub $Flatpaks
 sudo dnf install $RPMs
 sudo dnf swap mesa-va-drivers mesa-va-drivers-freeworld
