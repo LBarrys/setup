@@ -60,7 +60,7 @@ sudo firewall-cmd --permanent --remove-service=samba-client
 sudo firewall-cmd --reload
 
 # Remove Unnecessary Packages
-Trash="zram* vim* gnome-tour gnome-color-manager malcontent-control gnome-extensions-app gnome-remote-desktop gnome-bluetooth dosbox-staging speech-dispatcher speech-dispatcher-utils sane-backends-drivers-cameras sane-backends-drivers-scanners virt-viewer"
+Trash="zram* vim* gnome-tour gnome-color-manager malcontent-control gnome-extensions-app gnome-remote-desktop gnome-bluetooth dosbox-staging speech-dispatcher speech-dispatcher-utils sane-backends-drivers-cameras sane-backends-drivers-scanners virt-viewer nwg-panel"
 sudo dnf remove $Trash
 sudo dnf autoremove
 
