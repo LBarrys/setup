@@ -8,7 +8,7 @@ defaultyes=True
 " | sudo tee -a /etc/dnf/dnf.conf
 
 # Install/Enable Repositories
-sudo dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm -y
+sudo dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 sudo dnf install flatpak -y
 flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 # sudo dnf install --nogpgcheck --repofrompath 'terra,https://repos.fyralabs.com/terra$releasever' terra-release -y
@@ -18,8 +18,12 @@ sudo dnf update
 # GNOME
 GNOME="gdm gnome-shell gnome-tweaks nautilus gnome-textdditor gnome-weather"
 FlatpaksGNOME="com.mattjakeman.ExtensionManager io.github.realmazharhussain.GdmSettings"
-sudo dnf install $GNOME
-flatpak install flathub $FlatpaksGNOME
+# sudo dnf install $GNOME
+# flatpak install flathub $FlatpaksGNOME
+
+# Hypr
+Hyprland="lightdm-gtk-greeter lightdm-gtk-greeter-settings hyprland waybar xed thunar xfce-polkit pavucontrol gammastep"
+# sudo dnf install $Hyprland --exclude=kitty
 
 # NVIDIA
 GRUB_FILE="/etc/default/grub"
@@ -33,11 +37,15 @@ sudo sed -i "/^GRUB_CMDLINE_LINUX=/ s/\"$/ $GRUB_PARAM\"/" "$GRUB_FILE"
 sudo grub2-mkconfig -o /boot/grub2/grub.cfg
 
 # RPMs & Flatpaks & Systemd Services
-RPMs="firefox thunderbird transmission-gtk vlc vlc-plugins-all wine winetricks steam mangohud gnome-disk-utility timeshift inotify-tools cloudflare-warp fastfetch java-21-openjdk papirus-icon-theme breeze-cursor-theme bat wget p7zip p7zip-plugins unrar"
+RPMs="firefox thunderbird transmission-gtk vlc vlc-plugins-all wine winetricks steam mangohud gnome-disk-utility timeshift inotify-tools cloudflare-warp java-21-openjdk fastfetch papirus-icon-theme breeze-cursor-theme bat wget p7zip p7zip-plugins unrar @virtualization"
 Flatpaks="com.github.tchx84.Flatseal info.febvre.Komikku com.stremio.Stremio io.github.radiolamp.mangojuice io.github.Foldex.AdwSteamGtk com.vysp3r.ProtonPlus"
 flatpak install flathub $Flatpaks
 sudo dnf install $RPMs
 sudo dnf swap mesa-va-drivers mesa-va-drivers-freeworld
+sudo sed -i 's/#unix_sock_group = "libvirt"/unix_sock_group = "libvirt"/g' /etc/libvirt/libvirtd.conf
+sudo sed -i 's/#unix_sock_rw_perms = "0770"/unix_sock_rw_perms = "0770"/g' /etc/libvirt/libvirtd.conf
+sudo systemctl enable libvirtd
+sudo usermod -aG libvirt "$(whoami)"
 sudo systemctl disable NetworkManager-wait-online.service
 sudo systemctl enable warp-svc.service
 sudo systemctl set-default graphical.target
@@ -79,7 +87,7 @@ sudo dnf autoremove
 cd
 git clone https://github.com/vinceliuice/Orchis-theme.git
 cd Orchis-theme
-./install.sh --theme green --color dark --size standard --icon fedora --libadwaita --tweaks solid compact dock
+# ./install.sh --theme green --color dark --size standard --icon fedora --libadwaita --tweaks solid compact dock
 # ./install.sh --theme green --color dark --size standard --icon fedora --libadwaita --tweaks solid compact --round 0px
 sudo flatpak override --filesystem=xdg-config/gtk-3.0 && sudo flatpak override --filesystem=xdg-config/gtk-4.0
 sudo cp -r ~/.themes/* /usr/share/themes
