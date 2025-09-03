@@ -1,0 +1,97 @@
+@define-color bg    #2C2C2C; 
+@define-color fg    #FFFFFF; 
+@define-color blk   #000000; 
+@define-color red   #E53935; 
+@define-color grn   #66BB6A; 
+@define-color ylw   #FBC02D; 
+@define-color blu   #2A7BDE; 
+@define-color mag   #AB47BC; 
+@define-color cyn   #33C7DE; 
+@define-color brblk #444b6a; 
+@define-color white #FFFFFF; 
+
+* {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+window#waybar {
+    background-color: @bg;
+    color: @fg;
+}
+
+#workspaces button {
+    padding: 0 5px;
+    color: @white;
+    background: transparent;
+    border-top: 3px solid @bg;
+}
+#workspaces button.active {
+    color: @grn;
+    border-top: 3px solid @grn;
+}
+#workspaces button.empty {
+    color: @white;
+}
+#workspaces button.empty.active {
+    color: @grn;
+    border-top: 3px solid @grn;
+}
+
+#workspaces button.urgent {
+    background-color: @red;
+}
+
+button:hover {
+    background: inherit;
+    box-shadow: inset 0 -3px @bg;
+}
+
+#clock,
+#custom-sep,
+#battery,
+#cpu,
+#custom-gpu-usage,
+#memory,
+#network,
+#tray {
+    padding: 0 8px;
+    color: @white;
+}
+
+#clock {
+    color: @cyn;
+    border-top: 4px solid @cyn;
+}
+
+#battery {
+    color: @mag;
+    border-top: 4px solid @mag;
+}
+
+#memory {
+    color: @mag;
+    border-top: 4px solid @mag;
+}
+
+#cpu {
+    color: @grn;
+    border-top: 4px solid @grn;
+}
+#custom-gpu-usage {
+    color: @ylw;
+    border-top: 4px solid @ylw;
+}
+#network {
+    color: @blu;
+    border-top: 4px solid @blu;
+}
+
+#network.disconnected {
+    background-color: @red;
+}
+
+#tray {
+    background-color: @bg;
+}
