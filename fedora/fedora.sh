@@ -15,40 +15,30 @@ flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.f
 curl -fsSl https://pkg.cloudflareclient.com/cloudflare-warp-ascii.repo | sudo tee /etc/yum.repos.d/cloudflare-warp.repo
 sudo dnf update
 
-# GNOME
-GNOME="gdm gnome-shell gnome-tweaks nautilus gnome-textdditor gnome-weather"
-FlatpaksGNOME="com.mattjakeman.ExtensionManager io.github.realmazharhussain.GdmSettings"
-# sudo dnf install $GNOME
-# flatpak install flathub $FlatpaksGNOME
-
-# Hypr
-Hyprland="lightdm-gtk-greeter lightdm-gtk-greeter-settings hyprland waybar xed thunar xfce-polkit pavucontrol gammastep"
-# sudo dnf install $Hyprland --exclude=kitty
+# RPMs & Flatpaks & Systemd Services
+RPMs="kmod-nvidia xorg-x11-drv-nvidia-cuda akmod-nvidia nvidia-vaapi-driver libva-utils lightdm-gtk-greeter lightdm-gtk-greeter-settings hyprland waybar xed thunar pavucontrol gammastep gnome-shell gnome-tweaks curl cabextract xorg-x11-font-utils fontconfig google-roboto-fonts google-noto-fonts-all google-noto-sans-cjk-fonts jetbrains-mono-fonts firefox thunderbird transmission-gtk vlc vlc-plugins-all wine winetricks steam mangohud gnome-disk-utility timeshift inotify-tools cloudflare-warp java-21-openjdk fastfetch papirus-icon-theme bat wget p7zip p7zip-plugins unrar tldr make @virtualization"
+Flatpaks="com.github.tchx84.Flatseal info.febvre.Komikku com.stremio.Stremio io.github.radiolamp.mangojuice io.github.Foldex.AdwSteamGtk com.vysp3r.ProtonPlus"
+sudo dnf install $RPMs
+sudo dnf swap ffmpeg-free ffmpeg --allowerasing
+sudo dnf install @multimedia
+sudo dnf swap mesa-va-drivers mesa-va-drivers-freeworld --allowerasing
+# sudo rpm -i https://downloads.sourceforge.net/project/mscorefonts2/rpms/msttcore-fonts-installer-2.6-1.noarch.rpm
+flatpak install flathub $Flatpaks
+sudo sed -i 's/#unix_sock_group = "libvirt"/unix_sock_group = "libvirt"/g' /etc/libvirt/libvirtd.conf
+sudo sed -i 's/#unix_sock_rw_perms = "0770"/unix_sock_rw_perms = "0770"/g' /etc/libvirt/libvirtd.conf
+sudo systemctl enable libvirtd
+sudo systemctl disable NetworkManager-wait-online.service
+sudo systemctl enable warp-svc.service
+sudo systemctl set-default graphical.target
+sudo usermod -aG libvirt "$(whoami)"
 
 # NVIDIA
 GRUB_FILE="/etc/default/grub"
 GRUB_PARAM="nvidia-drm.modeset=1"
-Nvidia="kmod-nvidia xorg-x11-drv-nvidia-cuda akmod-nvidia nvidia-vaapi-driver libva-utils"
-  # NVIDIA Proprietary Drivers
-sudo dnf install $Nvidia
   # Configure GRUB for NVIDIA Drivers
 sudo cp "$GRUB_FILE" "${GRUB_FILE}.bak"
 sudo sed -i "/^GRUB_CMDLINE_LINUX=/ s/\"$/ $GRUB_PARAM\"/" "$GRUB_FILE"
 sudo grub2-mkconfig -o /boot/grub2/grub.cfg
-
-# RPMs & Flatpaks & Systemd Services
-RPMs="firefox thunderbird transmission-gtk vlc vlc-plugins-all wine winetricks steam mangohud gnome-disk-utility timeshift inotify-tools cloudflare-warp java-21-openjdk fastfetch papirus-icon-theme breeze-cursor-theme bat wget p7zip p7zip-plugins unrar tldr make @virtualization"
-Flatpaks="com.github.tchx84.Flatseal info.febvre.Komikku com.stremio.Stremio io.github.radiolamp.mangojuice io.github.Foldex.AdwSteamGtk com.vysp3r.ProtonPlus"
-flatpak install flathub $Flatpaks
-sudo dnf install $RPMs
-sudo dnf swap mesa-va-drivers mesa-va-drivers-freeworld
-sudo sed -i 's/#unix_sock_group = "libvirt"/unix_sock_group = "libvirt"/g' /etc/libvirt/libvirtd.conf
-sudo sed -i 's/#unix_sock_rw_perms = "0770"/unix_sock_rw_perms = "0770"/g' /etc/libvirt/libvirtd.conf
-sudo systemctl enable libvirtd
-sudo usermod -aG libvirt "$(whoami)"
-sudo systemctl disable NetworkManager-wait-online.service
-sudo systemctl enable warp-svc.service
-sudo systemctl set-default graphical.target
 
 # Build grub-btrfs
 cd
@@ -60,15 +50,6 @@ sed -i '/#GRUB_BTRFS_MKCONFIG=/a GRUB_BTRFS_MKCONFIG=/sbin/grub2-mkconfig' confi
 sed -i '/#GRUB_BTRFS_SCRIPT_CHECK=/a GRUB_BTRFS_SCRIPT_CHECK=grub2-script-check' config
 sudo make install
 sudo grub2-mkconfig -o /boot/grub2/grub.cfg
-
-# Multimedia
-sudo dnf swap ffmpeg-free ffmpeg --allowerasing
-sudo dnf install @multimedia
-
-# Fonts
-Fonts="curl cabextract xorg-x11-font-utils fontconfig google-roboto-fonts google-noto-fonts-all google-noto-sans-cjk-fonts jetbrains-mono-fonts"
-sudo dnf install $Fonts
-sudo rpm -i https://downloads.sourceforge.net/project/mscorefonts2/rpms/msttcore-fonts-installer-2.6-1.noarch.rpm
 
 # Remove Firewalld's Default Rules
 sudo firewall-cmd --permanent --remove-port=1025-65535/udp
