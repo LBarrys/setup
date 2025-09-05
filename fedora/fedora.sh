@@ -9,11 +9,14 @@ defaultyes=True
 
 # Install/Enable Repositories
 sudo dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+# sudo dnf config-manager setopt updates-testing.enabled=1
+# sudo dnf config-manager setopt rpmfusion-free-updates-testing.enabled=1
+# sudo dnf config-manager setopt rpmfusion-nonfree-updates-testing.enabled=1
+sudo dnf update --refresh
 sudo dnf install flatpak -y
 flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 # sudo dnf install --nogpgcheck --repofrompath 'terra,https://repos.fyralabs.com/terra$releasever' terra-release -y
 curl -fsSl https://pkg.cloudflareclient.com/cloudflare-warp-ascii.repo | sudo tee /etc/yum.repos.d/cloudflare-warp.repo
-sudo dnf update
 
 # HyprGNOME
 HyprGNOME="lightdm-gtk-greeter lightdm-gtk-greeter-settings hyprland waybar dconf-editor nautilus gnome-text-editor mate-polkit pavucontrol gammastep gnome-shell gnome-tweaks"
