@@ -62,6 +62,13 @@ sed -i '/#GRUB_BTRFS_SCRIPT_CHECK=/a GRUB_BTRFS_SCRIPT_CHECK=grub2-script-check'
 sudo make install
 sudo grub2-mkconfig -o /boot/grub2/grub.cfg
 
+# GeoClue2
+printf "%s" "
+allowed=true
+system=false
+users=
+" | sudo tee -a /etc/geoclue/geoclue.conf
+
 # Remove Firewalld's Default Rules
 sudo firewall-cmd --permanent --remove-port=1025-65535/udp
 sudo firewall-cmd --permanent --remove-port=1025-65535/tcp
