@@ -27,7 +27,7 @@ Plasma="sddm sddm-kcm sddm-breeze plasma-desktop kscreen plasma-nm plasma-pa kde
 # sudo dnf install $Plasma
 
 # RPMs & Flatpaks & Systemd Services
-RPMs="kmod-nvidia xorg-x11-drv-nvidia-cuda akmod-nvidia nvidia-vaapi-driver libva-utils alacritty curl cabextract xorg-x11-font-utils fontconfig google-roboto-fonts google-noto-fonts-all google-noto-sans-cjk-fonts google-noto-emoji-fonts google-noto-color-emoji-fonts jetbrains-mono-fonts firefox thunderbird qbittorrent vlc vlc-plugins-all wine winetricks steam mangohud gnome-disk-utility timeshift inotify-tools cloudflare-warp java-21-openjdk fastfetch papirus-icon-theme bat wget p7zip p7zip-plugins unrar tldr make @virtualization"
+RPMs="kmod-nvidia xorg-x11-drv-nvidia-cuda akmod-nvidia nvidia-vaapi-driver libva-utils alacritty curl cabextract xorg-x11-font-utils fontconfig google-roboto-fonts google-noto-fonts-all google-noto-sans-cjk-fonts google-noto-emoji-fonts google-noto-color-emoji-fonts jetbrains-mono-fonts firefox thunderbird qbittorrent vlc vlc-plugins-all wine winetricks steam mangohud gnome-disk-utility timeshift inotify-tools cloudflare-warp java-21-openjdk fastfetch papirus-icon-theme bat wget p7zip p7zip-plugins unrar tldr make btop @virtualization"
 Flatpaks="com.github.tchx84.Flatseal info.febvre.Komikku com.stremio.Stremio io.github.radiolamp.mangojuice io.github.Foldex.AdwSteamGtk com.vysp3r.ProtonPlus"
 sudo dnf install $RPMs
 sudo dnf swap ffmpeg-free ffmpeg --allowerasing
