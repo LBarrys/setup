@@ -16,6 +16,11 @@ SWAY="lightdm-gtk-greeter lightdm-gtk-greeter-settings sway swaybg sway-nvivida 
 # yay -S $SWAY
 # sudo systemctl enable lightdm
 
+# Hypr
+Hyprland="lightdm-gtk-greeter lightdm-gtk-greeter-settings hyprland hyprland-protocols hyprgraphics hyprshot hyprpolkitagent nwg-display nwg-look waybar nemo-fileroller xed xdg-user-dirs xdg-user-dirs-gtk"
+# yay -S $Hyprland
+# sudo systemctl enable lightdm
+
 # Install nvidia proprietary drivers
 Nvidia="nvidia-dkms nvidia-utils lib32-nvidia-utils opencl-nvidia lib32-opencl-nvidia linux-headers"
 yay -S $Nvidia
@@ -38,7 +43,7 @@ sudo sed -i "s/GRUB_CMDLINE_LINUX=\"\"/GRUB_CMDLINE_LINUX=\"loglevel=3 quiet nvi
 sudo grub-mkconfig -o /boot/grub/grub.cfg
 
 # Install RPMs & flatpaks
-PACMANs="alacritty timeshift grub-btrfs timeshift-autosnap inotify-tools cloudflare-warp-bin firefox betterbird-bin telegram-desktop transmission-gtk gnome-disk-utility fastfetch vlc vlc-plugins-all mission-center komikku papirus-icon-theme papirus-folders extra/breeze bat wget 7zip unrar jre-openjdk qemu-full qemu-img libvirt virt-install virt-manager edk2-ovmf dnsmasq swtpm guestfs-tools libosinfo tuned"
+PACMANs="alacritty timeshift grub-btrfs timeshift-autosnap inotify-tools cloudflare-warp-bin firefox betterbird-bin telegram-desktop qbittorrent gnome-disk-utility fastfetch vlc vlc-plugins-all btop komikku papirus-icon-theme papirus-folders extra/breeze bat wget 7zip unrar jre-openjdk qemu-full qemu-img libvirt virt-install virt-manager edk2-ovmf dnsmasq swtpm guestfs-tools libosinfo tuned"
 yay -S $PACMANs
 Gaming="alsa-lib alsa-plugins fontconfig gamemode gamescope giflib glfw gnutls gst-plugin-pipewire gst-plugin-va gst-plugins-bad gst-plugins-bad-libs gst-plugins-base gst-plugins-base-libs gst-plugins-good gst-plugins-ugly gtk2 gtk2+extra gtk3 libgcrypt libgpg-error libjpeg-turbo libldap libpng libpulse libva libva-mesa-driver libxcomposite libxinerama libxslt mangohud mangojuice mpg123 ncurses ocl-icd openal opencl-icd-loader sqlite adwsteamgtk steam proton-ge-custom-bin steamtinkerlaunch v4l-utils vkd3d vulkan-icd-loader prismlauncher dxvk-bin bottles wine-gecko wine-mono wine winetricks lib32-alsa-lib lib32-alsa-plugins lib32-fontconfig lib32-giflib lib32-gnutls lib32-gst-plugins-base-libs lib32-gst-plugins-good lib32-gtk3 lib32-libgcrypt lib32-libgpg-error lib32-libjpeg-turbo lib32-libldap lib32-libpng lib32-libpulse lib32-libva lib32-libva-mesa-driver lib32-libxcomposite lib32 libxinerama lib32-libxslt lib32-mangohud lib32-mpg123 lib32-ncurses lib32-ocl-icd lib32-openal lib32-sqlite lib32-v4l-utils lib32-vkd3d lib32-vulkan-icd-loader"
 yay -S $Gaming
