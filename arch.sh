@@ -63,7 +63,7 @@ cd
 git clone https://github.com/vinceliuice/Orchis-theme.git
 cd Orchis-theme
 # ./install.sh --theme green --color dark --size standard --icon arch --libadwaita --tweaks solid compact dock
-# ./install.sh --theme green --color dark --size standard --icon fedora --libadwaita --tweaks solid compact --round 0px
+./install.sh --theme green --color dark --size standard --icon fedora --libadwaita --tweaks solid compact --round 0px
 sudo cp -r ~/.themes/* /usr/share/themes
 
 # My configs
