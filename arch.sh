@@ -17,7 +17,7 @@ SWAY="lightdm-gtk-greeter lightdm-gtk-greeter-settings sway swaybg sway-nvivida 
 # sudo systemctl enable lightdm
 
 # Hypr
-Hyprland="lightdm-gtk-greeter lightdm-gtk-greeter-settings hyprland hyprland-protocols hyprgraphics hyprshot hyprpolkitagent nwg-display nwg-look waybar nemo-fileroller xed xdg-user-dirs xdg-user-dirs-gtk"
+Hyprland="sddm hyprland hyprland-protocols hyprgraphics hyprshot hyprpolkitagent nwg-look waybar nemo-fileroller xed xdg-user-dirs xdg-user-dirs-gtk"
 # yay -S $Hyprland
 # sudo systemctl enable lightdm
 
@@ -78,9 +78,9 @@ alias ls='ls -a --color=auto'
 alias grep='grep --color=auto'
 alias cat='bat -pp'
 alias autorm='sudo pacman -Rns $(pacman -Qdtq)'
-alias in='sudo pacman -S'
+alias in='yay -S'
 alias rm='sudo pacman -Rns'
-alias se='pacman -Ss'
+alias se='yay -Ss'
 alias timeshiftC='sudo timeshift --create'
 alias timeshiftR='sudo timeshift --restore'
 alias timeshiftD='sudo timeshift --delete'
