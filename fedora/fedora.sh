@@ -5,17 +5,20 @@ printf "%s" "
 fastestmirror=True
 max_parallel_downloads=5
 defaultyes=True
+best=True
+clean_requirements_on_remove=True
+color=always
 " | sudo tee -a /etc/dnf/dnf.conf
 
 # Install Repositories
 sudo dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
-sudo dnf install flatpak -y
+sudo dnf install flatpak
 flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 # sudo dnf install --nogpgcheck --repofrompath 'terra,https://repos.fyralabs.com/terra$releasever' terra-release -y
 curl -fsSl https://pkg.cloudflareclient.com/cloudflare-warp-ascii.repo | sudo tee /etc/yum.repos.d/cloudflare-warp.repo
 
 # Hyprland
-Hypr="sddm hyprland waybar nemo-fileroller xed mate-polkit pavucontrol gammastep"
+Hypr="sddm-generic-wayland xdg-desktop-portal-hyprland hyprland hyprland-contrib hyprpaper waybar rofi-wayland nemo-fileroller nwg-look mate-polkit pavucontrol gammastep"
 # sudo dnf install $Hypr
 
 # Plasma
@@ -23,7 +26,7 @@ Plasma="sddm sddm-kcm sddm-breeze plasma-desktop kscreen plasma-nm plasma-pa kde
 # sudo dnf install $Plasma
 
 # RPMs & Flatpaks & Systemd Services
-RPMs="kmod-nvidia xorg-x11-drv-nvidia-cuda akmod-nvidia nvidia-vaapi-driver libva-utils alacritty curl cabextract xorg-x11-font-utils fontconfig google-roboto-fonts google-noto-fonts-all google-noto-sans-cjk-fonts google-noto-emoji-fonts google-noto-color-emoji-fonts jetbrains-mono-fonts firefox thunderbird qbittorrent vlc vlc-plugins-all wine winetricks steam mangohud gnome-disk-utility timeshift inotify-tools cloudflare-warp java-21-openjdk fastfetch papirus-icon-theme breeze-cursor-theme bat wget p7zip p7zip-plugins unrar tldr make btop golang gtk3-devel libappindicator-gtk3-devel @virtualization"
+RPMs="kmod-nvidia xorg-x11-drv-nvidia-cuda akmod-nvidia nvidia-vaapi-driver libva-utils alacritty curl cabextract xorg-x11-font-utils fontconfig google-roboto-fonts google-noto-fonts-all google-noto-sans-cjk-fonts google-noto-emoji-fonts google-noto-color-emoji-fonts jetbrains-mono-fonts firefox thunderbird qbittorrent vlc vlc-plugins-all wine winetricks steam gnome-disk-utility timeshift inotify-tools cloudflare-warp java-25-openjdk fastfetch papirus-icon-theme breeze-cursor-theme bat wget p7zip p7zip-plugins unrar tldr make btop vim awesome-vim-colorschemes @virtualization"
 Flatpaks="com.github.tchx84.Flatseal info.febvre.Komikku com.stremio.Stremio io.github.radiolamp.mangojuice io.github.Foldex.AdwSteamGtk com.vysp3r.ProtonPlus"
 flatpak install flathub $Flatpaks
 sudo dnf install $RPMs
@@ -44,13 +47,6 @@ sudo cp "/etc/default/grub" "/etc/default/grub.bak"
 sudo sed -i "/^GRUB_CMDLINE_LINUX=/ s/\"$/ nvidia-drm.modeset=1\"/" "/etc/default/grub"
 sudo grub2-mkconfig -o /boot/grub2/grub.cfg
 
-# Build & Install nwg-look
-cd
-git clone https://github.com/nwg-piotr/nwg-look.git
-cd nwg-look
-make build
-sudo make install
-
 # Install grub-btrfs
 cd
 git clone https://github.com/Antynea/grub-btrfs.git
@@ -61,14 +57,6 @@ sed -i '/#GRUB_BTRFS_MKCONFIG=/a GRUB_BTRFS_MKCONFIG=/sbin/grub2-mkconfig' confi
 sed -i '/#GRUB_BTRFS_SCRIPT_CHECK=/a GRUB_BTRFS_SCRIPT_CHECK=grub2-script-check' config
 sudo make install
 sudo grub2-mkconfig -o /boot/grub2/grub.cfg
-
-# GeoClue2
-printf "%s" "
-[redshift]
-allowed=true
-system=false
-users=
-" | sudo tee -a /etc/geoclue/geoclue.conf
 
 # Remove Firewalld's Default Rules
 sudo firewall-cmd --permanent --remove-port=1025-65535/udp
@@ -91,34 +79,59 @@ sudo cp -r ~/.themes/* /usr/share/themes
 cp -r ~/setup/dotfiles/* ~/.config
 
 # Cleanup
-Trash="zram* vim* gnome-tour gnome-color-manager malcontent-control gnome-extensions-app gnome-remote-desktop gnome-bluetooth dosbox-staging speech-dispatcher speech-dispatcher-utils sane-backends-drivers-cameras sane-backends-drivers-scanners virt-viewer nwg-panel golang gtk3-devel libappindicator-gtk3-devel"
+Trash="zram* nano* gnome-tour gnome-color-manager malcontent-control gnome-extensions-app gnome-remote-desktop gnome-bluetooth dosbox-staging speech-dispatcher speech-dispatcher-utils sane-backends-drivers-cameras sane-backends-drivers-scanners virt-viewer nwg-panel wofi kitty brightnessctl swww hdrop grimblast"
 sudo dnf remove $Trash
 sudo dnf autoremove
 Files="~/setup ~/nwg-look ~/grub-btrfs ~/Orchis-theme ~/go ~/.config/go"
 sudo rm -rf $Files
 
 # My .bashrc
-echo "#bash promit color
-PS1='\[\033[1;32m\]\u\[\033[0;37m\]@\[\033[1;32m\]\h\[\033[0;37m\]:\W '
+echo "
+##########
+# Promit #
+##########
 
-#aliases
+# PS1='\[\033[1;32m\]\u\[\033[0;37m\]@\[\033[1;32m\]\h\[\033[0;37m\]:\W '
+# PS1='\[\033[1;32m\]\u\[\033[0;37m\]@\[\033[1;32m\] \W\[\033[0;37m\]: '
+PS1='\[\033[1;32m\]\u \[\033[0;37m\]\W \[\033[1;32m\]>\[\033[0;37m\] '
+
+
+
+###########
+# Aliases #
+###########
+
+# General
 alias ls='ls -a --color=auto'
 alias grep='grep --color=auto'
 alias cat='bat -pp'
-alias in='sudo dnf install'
-alias rm='sudo dnf remove'
-alias autorm='sudo dnf autoremove'
-alias se='dnf search'
-alias up='sudo dnf update --refresh; flatpak update'
+alias update-grub='sudo grub2-mkconfig -o /boot/grub2/grub.cfg'
+alias wconnect='warp-cli connect'
+alias wdisconnect='warp-cli disconnect'
+
+# DNF
+alias autoremove='sudo dnf autoremove'
+alias search='dnf search'
+alias install='sudo dnf install'
+alias remove='sudo dnf remove'
+alias update='sudo dnf update --refresh; flatpak update'
+alias list-installed='dnf list --installed'
+
+# Flatpak
 alias flatin='flatpak install flathub'
 alias flatrm='flatpak remove'
 alias flatse='flatpak search'
+
+# Timeshift
 alias timeshiftC='sudo timeshift --create && sudo grub2-mkconfig -o /boot/grub2/grub.cfg'
 alias timeshiftR='sudo timeshift --restore && sudo grub2-mkconfig -o /boot/grub2/grub.cfg'
 alias timeshiftD='sudo timeshift --delete && sudo grub2-mkconfig -o /boot/grub2/grub.cfg'
-alias update-grub='sudo grub2-mkconfig -o /boot/grub2/grub.cfg'
 
-#fastfetch logo
-fastfetch --logo-padding-left 1 --logo-padding-right 1 --color green --logo fedora_small" >> ~/.bashrc
+#############
+# Fastfetch #
+#############
+
+fastfetch --logo-padding-left 1 --logo-padding-right 1 --color green --logo fedora_small
+" >> ~/.bashrc
 
 echo -e "\033[1;32mScript completed. Please reboot to apply changes. DO NOT FORGOT GRUB-BTRFS. \033[0m"
