@@ -1,26 +1,27 @@
 // -*- mode: jsonc -*-
 {
-    "layer": "top", 
-    "position": "bottom", 
-    "height": 30, 
-    "spacing": 4, 
+//    "layer": "top",
+    "position": "bottom",
+    "height": 25,
+    "spacing": 5,
 
     // Choose the order of the modules
     "modules-left": [
-        "hyprland/workspaces",
+        "network",
+	"custom/vpn",
     ],
 
     "modules-center": [
-        "hyprland/window",
+//        "hyprland/window",
+        "clock",
+
     ],
 
     "modules-right": [
-        "network",
+        "tray",
+        "memory",
         "cpu",
         "custom/gpu-usage",
-        "memory",
-        "clock",
-        "tray"
     ],
 
     // Modules configuration
@@ -35,32 +36,31 @@
         "seperate-outputs": false
     },
     "tray": {
-        // "icon-size": 21,
         "spacing": 10
-        // "icons": {
-        //   "blueman": "bluetooth",
-        //   "TelegramDesktop": "$HOME/.local/share/icons/hicolor/16x16/apps/telegram.png"
-        // }
     },
-    "clock": {
-        "format-alt": "{:%Y-%m-%d}"
-    },
+  "clock": {
+    "format": " {:%Y/%m/%d %I:%M %p} "
+  },
     "cpu": {
-        "format": "CPU: {usage}%",
+        "format": " CPU: {usage}% ",
         "tooltip": false
     },
     "custom/gpu-usage": {
-        "format": "GPU: {}%",
-        "on-click": "nvidia-settings",
+        "format": " GPU: {}% ",
         "exec": "nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits",
         "interval": 1,
     },
+    "custom/vpn": {
+	    "format": " VPN: {} ",
+	    "exec": "warp-cli status | grep -oE 'Connected|Disconnected'",
+	    "interval": 1,
+    },
     "memory": {
-        "format": "Mem: {used}GiB"
+        "format": " Mem: {used}GiB "
     },
     "network": {
-        "format": "Online",
-        "format-disconnected": "Disconnected ⚠"
+        "format": " eth0: Online ",
+        "format-disconnected": " eth0: Offline "
     },
     "custom/sep": {
         "format" : "|",
