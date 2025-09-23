@@ -18,7 +18,7 @@ flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.f
 curl -fsSl https://pkg.cloudflareclient.com/cloudflare-warp-ascii.repo | sudo tee /etc/yum.repos.d/cloudflare-warp.repo
 
 # Hyprland
-Hypr="sddm-generic-wayland xdg-desktop-portal-hyprland hyprland hyprland-contrib hyprpaper waybar rofi-wayland nemo-fileroller nwg-look mate-polkit pavucontrol gammastep"
+Hypr="sddm-wayland-generic hyprland xdg-desktop-portal-hyprland swaybg waybar rofi-wayland nemo-fileroller mate-polkit pavucontrol gammastep"
 # sudo dnf install $Hypr
 
 # Plasma
@@ -26,7 +26,7 @@ Plasma="sddm sddm-kcm sddm-breeze plasma-desktop kscreen plasma-nm plasma-pa kde
 # sudo dnf install $Plasma
 
 # RPMs & Flatpaks & Systemd Services
-RPMs="kmod-nvidia xorg-x11-drv-nvidia-cuda akmod-nvidia nvidia-vaapi-driver libva-utils alacritty curl cabextract xorg-x11-font-utils fontconfig google-roboto-fonts google-noto-fonts-all google-noto-sans-cjk-fonts google-noto-emoji-fonts google-noto-color-emoji-fonts jetbrains-mono-fonts firefox thunderbird qbittorrent vlc vlc-plugins-all wine winetricks steam gnome-disk-utility timeshift inotify-tools cloudflare-warp java-25-openjdk fastfetch papirus-icon-theme breeze-cursor-theme bat wget p7zip p7zip-plugins unrar tldr make btop vim awesome-vim-colorschemes @virtualization"
+RPMs="kmod-nvidia xorg-x11-drv-nvidia-cuda akmod-nvidia nvidia-vaapi-driver libva-utils alacritty curl cabextract xorg-x11-font-utils fontconfig google-roboto-fonts google-noto-fonts-all google-noto-sans-cjk-fonts google-noto-emoji-fonts google-noto-color-emoji-fonts jetbrains-mono-fonts firefox thunderbird qbittorrent vlc vlc-plugins-all wine winetricks steam gnome-disk-utility timeshift inotify-tools cloudflare-warp java-25-openjdk fastfetch papirus-icon-theme breeze-cursor-theme bat wget p7zip p7zip-plugins unrar tldr make btop vim awesome-vim-colorschemes golang gtk3-devel libappindicator-gtk3-devel @virtualization"
 Flatpaks="com.github.tchx84.Flatseal info.febvre.Komikku com.stremio.Stremio io.github.radiolamp.mangojuice io.github.Foldex.AdwSteamGtk com.vysp3r.ProtonPlus"
 flatpak install flathub $Flatpaks
 sudo dnf install $RPMs
@@ -46,6 +46,13 @@ sudo usermod -aG libvirt "$(whoami)"
 sudo cp "/etc/default/grub" "/etc/default/grub.bak"
 sudo sed -i "/^GRUB_CMDLINE_LINUX=/ s/\"$/ nvidia-drm.modeset=1\"/" "/etc/default/grub"
 sudo grub2-mkconfig -o /boot/grub2/grub.cfg
+
+# Build & Install nwg-look
+cd
+git clone https://github.com/nwg-piotr/nwg-look.git
+cd nwg-look
+make build
+sudo make install
 
 # Install grub-btrfs
 cd
@@ -68,22 +75,19 @@ sudo firewall-cmd --reload
 
 # Orchis Theme
 cd
-git clone https://github.com/vinceliuice/Orchis-theme.git
-cd Orchis-theme
-# ./install.sh --theme green --color dark --size standard --icon fedora --libadwaita --tweaks solid compact dock
-# ./install.sh --theme green --color dark --size standard --icon fedora --libadwaita --tweaks solid compact --round 0px
-sudo flatpak override --filesystem=xdg-config/gtk-3.0 && sudo flatpak override --filesystem=xdg-config/gtk-4.0
+git clone https://github.com/Fausto-Korpsvart/Gruvbox-GTK-Theme.git 
+cd Gruvbox-GTK-Theme
+cd themes
+./install.sh --theme all --color dark --size standard --libadwaita --tweaks medium
 sudo cp -r ~/.themes/* /usr/share/themes
 
-# My Configs
+# Dotfiles
 cp -r ~/setup/dotfiles/* ~/.config
 
 # Cleanup
-Trash="zram* nano* gnome-tour gnome-color-manager malcontent-control gnome-extensions-app gnome-remote-desktop gnome-bluetooth dosbox-staging speech-dispatcher speech-dispatcher-utils sane-backends-drivers-cameras sane-backends-drivers-scanners virt-viewer nwg-panel wofi kitty brightnessctl swww hdrop grimblast"
+Trash="zram* nano* gnome-tour gnome-color-manager malcontent-control gnome-extensions-app gnome-remote-desktop gnome-bluetooth dosbox-staging speech-dispatcher speech-dispatcher-utils sane-backends-drivers-cameras sane-backends-drivers-scanners virt-viewer nwg-panel wofi kitty brightnessctl swww hdrop grimblast golang gtk3-devel libappindicator-gtk3-devel"
 sudo dnf remove $Trash
 sudo dnf autoremove
-Files="~/setup ~/nwg-look ~/grub-btrfs ~/Orchis-theme ~/go ~/.config/go"
-sudo rm -rf $Files
 
 # My .bashrc
 echo "
