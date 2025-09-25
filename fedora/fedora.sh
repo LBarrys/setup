@@ -14,11 +14,11 @@ color=always
 sudo dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 sudo dnf install flatpak
 flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-# sudo dnf install --nogpgcheck --repofrompath 'terra,https://repos.fyralabs.com/terra$releasever' terra-release -y
+sudo dnf install --nogpgcheck --repofrompath 'terra,https://repos.fyralabs.com/terra$releasever' terra-release -y
 curl -fsSl https://pkg.cloudflareclient.com/cloudflare-warp-ascii.repo | sudo tee /etc/yum.repos.d/cloudflare-warp.repo
 
 # Hyprland
-Hypr="sddm-wayland-generic hyprland xdg-desktop-portal-hyprland swaybg waybar rofi-wayland nemo-fileroller mate-polkit pavucontrol gammastep"
+Hypr="sddm-wayland-generic hyprland xdg-desktop-portal-hyprland hyprgraphics swaybg waybar rofi-wayland nemo-fileroller mate-polkit pavucontrol gammastep copyq"
 # sudo dnf install $Hypr
 
 # Plasma
@@ -26,7 +26,7 @@ Plasma="sddm sddm-kcm sddm-breeze plasma-desktop kscreen plasma-nm plasma-pa kde
 # sudo dnf install $Plasma
 
 # RPMs & Flatpaks & Systemd Services
-RPMs="kmod-nvidia xorg-x11-drv-nvidia-cuda akmod-nvidia nvidia-vaapi-driver libva-utils alacritty curl cabextract xorg-x11-font-utils fontconfig google-roboto-fonts google-noto-fonts-all google-noto-sans-cjk-fonts google-noto-emoji-fonts google-noto-color-emoji-fonts jetbrains-mono-fonts firefox thunderbird qbittorrent vlc vlc-plugins-all wine winetricks steam gnome-disk-utility timeshift inotify-tools cloudflare-warp java-25-openjdk fastfetch papirus-icon-theme breeze-cursor-theme bat wget p7zip p7zip-plugins unrar tldr make btop vim awesome-vim-colorschemes golang gtk3-devel libappindicator-gtk3-devel @virtualization"
+RPMs="kmod-nvidia xorg-x11-drv-nvidia-cuda akmod-nvidia nvidia-vaapi-driver libva-utils alacritty curl cabextract xorg-x11-font-utils fontconfig google-roboto-fonts google-noto-fonts-all google-noto-sans-cjk-fonts google-noto-emoji-fonts google-noto-color-emoji-fonts jetbrains-mono-fonts firefox thunderbird qbittorrent vlc vlc-plugins-all wine winetricks steam lutris gnome-disk-utility timeshift inotify-tools cloudflare-warp java-25-openjdk fastfetch papirus-icon-theme breeze-cursor-theme bat wget p7zip p7zip-plugins unrar tldr make btop vim awesome-vim-colorschemes golang gtk3-devel libappindicator-gtk3-devel @virtualization"
 Flatpaks="com.github.tchx84.Flatseal info.febvre.Komikku com.stremio.Stremio io.github.radiolamp.mangojuice io.github.Foldex.AdwSteamGtk com.vysp3r.ProtonPlus"
 flatpak install flathub $Flatpaks
 sudo dnf install $RPMs
