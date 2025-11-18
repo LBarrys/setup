@@ -1,0 +1,73 @@
+//////////////////////////////////
+// LBarrys Waybar Configuration //
+//////////////////////////////////
+
+{
+
+///////////////////
+// Positionining //
+///////////////////
+
+    "position": "bottom", 
+    "height": 25,
+    "margin-bottom": 8,
+    "width": 1900,
+    "spacing": 5, 
+
+/////////////
+// Modules //
+/////////////
+
+    "modules-left": [
+        "network",
+	"custom/vpn",
+    ],
+
+    "modules-center": [
+        "clock",
+    ],
+
+    "modules-right": [
+        "tray",
+        "memory",
+        "cpu",
+        "custom/gpu-usage",
+    ],
+
+///////////////////////////
+// Modules Configuration //
+//////////////////////////
+
+    "tray": {
+        "spacing": 10
+    },
+
+    "clock": {
+        "format": " {:%Y/%m/%d %I:%M %p} ",
+    },
+
+    "cpu": {
+        "format": " CPU: {usage}% ",
+    },
+
+    "custom/gpu-usage": {
+        "format": " GPU: {}% ",
+        "exec": "nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits",
+        "interval": 1,
+    },
+
+    "custom/vpn": {
+	    "format": " VPN: {} ",
+	    "exec": "warp-cli status | grep -oE 'Connected|Disconnected'",
+	    "interval": 1,
+    },
+
+    "memory": {
+        "format": " Mem: {used}GiB "
+    },
+
+    "network": {
+        "format": " eth0: Online ",
+        "format-disconnected": " eth0: Offline "
+    },
+}
